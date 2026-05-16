@@ -295,9 +295,203 @@
         @keyframes spin {
           to { transform: rotate(360deg); }
         }
+        /* TOP BAR */
+
+    .top-bar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      padding: 1.25rem 2rem;
+
+      z-index: 50;
+
+      pointer-events: none;
+    }
+
+    .top-bar-right {
+      display: flex;
+      gap: 0.75rem;
+      pointer-events: auto;
+    }
+
+    .auth-btn {
+      padding: 0.55rem 1rem;
+
+      border-radius: 999px;
+      border: 1px solid var(--border);
+
+      background: rgba(19,19,26,0.7);
+      backdrop-filter: blur(10px);
+
+      color: var(--text);
+
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+
+      cursor: pointer;
+
+      transition: all 0.2s;
+    }
+
+    .auth-btn:hover {
+      border-color: #333;
+      transform: translateY(-1px);
+    }
+
+    .auth-btn-primary {
+      background: var(--gold-glow);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* MODAL */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+
+      opacity: 0;
+      pointer-events: none;
+
+      transition: opacity 0.25s ease;
+
+      z-index: 100;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .auth-modal {
+      width: 100%;
+      max-width: 420px;
+
+      background: var(--surface);
+
+      border: 1px solid var(--border);
+      border-radius: 18px;
+
+      padding: 2rem;
+
+      animation: fadeUp 0.25s ease;
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+
+      color: var(--muted);
+
+      font-size: 0.82rem;
+    }
+
+    .form-group input {
+      width: 100%;
+
+      padding: 0.9rem 1rem;
+
+      border-radius: 12px;
+      border: 1px solid var(--border);
+
+      background: rgba(255,255,255,0.02);
+
+      color: var(--text);
+
+      font-family: inherit;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .modal-submit-btn {
+      width: 100%;
+
+      padding: 0.95rem 1rem;
+
+      border-radius: 12px;
+      border: 1px solid var(--gold);
+
+      background: var(--gold-glow);
+
+      color: var(--gold);
+
+      font-family: inherit;
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition: all 0.2s;
+    }
+
+    .modal-submit-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .modal-error {
+      margin-top: 1rem;
+
+      color: #d86f6f;
+
+      font-size: 0.82rem;
+    }
+
+    @media (max-width: 768px) {
+
+      .top-bar {
+        padding: 1rem;
+      }
+
+      .auth-modal {
+        margin: 1rem;
+      }
+
+    }
     </style>
 </head>
 <body>
+<div class="top-bar">
+    <div class="top-bar-right">
+        <button class="auth-btn" onclick="openModal('login')">
+            Sign in
+        </button>
+
+        <button class="auth-btn auth-btn-primary" onclick="openModal('register')">
+            Join for free
+        </button>
+    </div>
+</div>
 <div class="wrapper">
     <header>
         <div class="logo">FirstClub</div>
@@ -320,7 +514,70 @@
         </div>
     </div>
 </div>
-
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
+    <div class="auth-modal">
+        <div class="logo">FirstClub</div>
+        <h2 id="modalTitle" class="modal-title">
+            Welcome back
+        </h2>
+        <p id="modalSub" class="modal-subtitle">
+            Sign in to continue
+        </p>
+        <div class="tier-nav" style="margin-top:1.5rem; margin-bottom:2rem">
+            <button
+                    class="tier-btn active-gold"
+                    id="tabLogin"
+                    onclick="switchTab('login')"
+            >
+                Sign in
+            </button>
+            <button
+                    class="tier-btn"
+                    id="tabRegister"
+                    onclick="switchTab('register')"
+            >
+                Create account
+            </button>
+        </div>
+        <!-- LOGIN -->
+        <div id="formLogin">
+            <div class="form-group">
+                <label>Email</label>
+                <input
+                        type="email"
+                        id="loginEmail"
+                        placeholder="you@example.com"
+                >
+            </div>
+            <button class="modal-submit-btn" onclick="doLogin()">
+                Sign in
+            </button>
+        </div>
+        <!-- REGISTER -->
+        <div id="formRegister" style="display:none">
+            <div class="form-group">
+                <label>Name</label>
+                <input
+                        type="text"
+                        id="regName"
+                        placeholder="Your name"
+                >
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input
+                        type="email"
+                        id="regEmail"
+                        placeholder="you@example.com"
+                >
+            </div>
+            <button class="modal-submit-btn" onclick="doRegister()">
+                Create account
+        </div>
+        <p id="modalError" class="modal-error"></p>
+    </div>
+</div>
 <script>
     const API_URL = 'http://localhost:8080/api/plans';
 
@@ -444,7 +701,108 @@
           </p>
         </div>`;
     }
+    window.openModal = function(tab = 'login') {
 
+  switchTab(tab);
+
+      document
+        .getElementById('modalOverlay')
+        .classList
+        .add('open');
+    };
+
+    window.closeModal = function() {
+
+      document
+        .getElementById('modalOverlay')
+        .classList
+        .remove('open');
+    };
+
+    window.closeModalOnBg = function(event) {
+
+      if (event.target.id === 'modalOverlay') {
+        closeModal();
+      }
+    };
+
+    window.switchTab = function(tab) {
+
+      const isLogin = tab === 'login';
+
+      document.getElementById('formLogin').style.display =
+        isLogin ? 'block' : 'none';
+
+      document.getElementById('formRegister').style.display =
+        isLogin ? 'none' : 'block';
+
+      document.getElementById('tabLogin').className =
+        isLogin
+          ? 'tier-btn active-gold'
+          : 'tier-btn';
+
+      document.getElementById('tabRegister').className =
+        !isLogin
+          ? 'tier-btn active-gold'
+          : 'tier-btn';
+
+      document.getElementById('modalTitle').textContent =
+        isLogin
+          ? 'Welcome back'
+          : 'Create account';
+
+      document.getElementById('modalSub').textContent =
+        isLogin
+          ? 'Sign in to continue'
+          : 'Join FirstClub for free';
+
+      document.getElementById('modalError').textContent = '';
+    };
+
+    window.doLogin = function() {
+
+      const email =
+        document.getElementById('loginEmail')
+        .value
+        .trim();
+
+      if (!email) {
+
+        document.getElementById('modalError')
+          .textContent = 'Please enter your email';
+
+        return;
+      }
+
+      closeModal();
+
+      alert('Signed in successfully');
+    };
+
+    window.doRegister = function() {
+
+      const name =
+        document.getElementById('regName')
+        .value
+        .trim();
+
+      const email =
+        document.getElementById('regEmail')
+        .value
+        .trim();
+
+      if (!name || !email) {
+
+        document.getElementById('modalError')
+          .textContent = 'Please complete all fields';
+
+        return;
+      }
+
+      closeModal();
+
+      alert(`Welcome, ${name}!`);
+    };
     fetchPlans();
 </script>
 </body>
