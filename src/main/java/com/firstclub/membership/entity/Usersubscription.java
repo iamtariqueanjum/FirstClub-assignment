@@ -47,5 +47,6 @@ public class Usersubscription {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    private LocalDateTime cancelledAt;
 
 }
