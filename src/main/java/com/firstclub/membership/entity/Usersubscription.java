@@ -1,7 +1,13 @@
 package com.firstclub.membership.entity;
 
+import com.firstclub.membership.enums.MembershipTier;
+import com.firstclub.membership.enums.SubscriptionStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user_subscriptions")
@@ -22,5 +28,24 @@ public class Usersubscription {
     @ManyToOne
     @JoinColumn(name = "plan_id", nullable = false)
     private MembershipPlan plan;
+
+    @Enumerated(EnumType.STRING)
+    private MembershipTier currentTier;
+
+    @Enumerated(EnumType.STRING)
+    private SubscriptionStatus status;
+
+    @Column(nullable = false)
+    private LocalDateTime startDate;
+
+    @Column(nullable = false)
+    private LocalDateTime endDate;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
 
 }

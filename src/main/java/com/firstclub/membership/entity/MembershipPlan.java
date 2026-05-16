@@ -1,9 +1,12 @@
 package com.firstclub.membership.entity;
 
+import com.firstclub.membership.enums.MembershipTier;
+import com.firstclub.membership.enums.PlanDuration;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "membership_plans")
@@ -25,5 +28,11 @@ public class MembershipPlan {
 
     @Column(nullable = false)
     private Boolean active = true;
+
+    @Enumerated(EnumType.STRING)
+    private PlanDuration duration;
+
+    @Enumerated(EnumType.STRING)
+    private MembershipTier tier;
 
 }
