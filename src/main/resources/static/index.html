@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FirstClub — Membership Plans</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+          --bg: #0c0c0f;
+          --surface: #13131a;
+          --border: #1e1e2e;
+          --silver: #a8b2c1;
+          --silver-glow: rgba(168,178,193,0.15);
+          --gold: #d4a843;
+          --gold-glow: rgba(212,168,67,0.15);
+          --platinum: #e8e0f0;
+          --platinum-glow: rgba(232,224,240,0.15);
+          --text: #f0eff4;
+          --muted: #6b6b80;
+          --monthly: #5b8af0;
+          --quarterly: #7c5bf0;
+          --yearly: #bf5bf0;
+        }
+
+        body {
+          background: var(--bg);
+          color: var(--text);
+          font-family: 'DM Sans', sans-serif;
+          min-height: 100vh;
+          overflow-x: hidden;
+        }
+
+        /* Ambient background */
+        body::before {
+          content: '';
+          position: fixed;
+          inset: 0;
+          background:
+            radial-gradient(ellipse 60% 40% at 20% 20%, rgba(91,138,240,0.06) 0%, transparent 60%),
+            radial-gradient(ellipse 50% 40% at 80% 80%, rgba(212,168,67,0.06) 0%, transparent 60%);
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        .wrapper { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+        /* Header */
+        header {
+          padding: 3.5rem 0 2rem;
+          text-align: center;
+          animation: fadeDown 0.6s ease both;
+        }
+
+        .logo {
+          font-family: 'Playfair Display', serif;
+          font-size: 1rem;
+          letter-spacing: 0.3em;
+          text-transform: uppercase;
+          color: var(--muted);
+          margin-bottom: 1.5rem;
+        }
+
+        h1 {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(2.2rem, 5vw, 3.5rem);
+          font-weight: 700;
+          line-height: 1.15;
+          margin-bottom: 1rem;
+          background: linear-gradient(135deg, #f0eff4 40%, #a8b2c1);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .subtitle {
+          color: var(--muted);
+          font-size: 1rem;
+          font-weight: 300;
+          letter-spacing: 0.02em;
+        }
+
+        /* Tier tabs */
+        .tier-nav {
+          display: flex;
+          justify-content: center;
+          gap: 0.5rem;
+          margin: 2.5rem 0;
+          animation: fadeDown 0.6s 0.1s ease both;
+        }
+
+        .tier-btn {
+          padding: 0.5rem 1.4rem;
+          border-radius: 2rem;
+          border: 1px solid var(--border);
+          background: transparent;
+          color: var(--muted);
+          font-family: 'DM Sans', sans-serif;
+          font-size: 0.85rem;
+          font-weight: 500;
+          letter-spacing: 0.05em;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        .tier-btn:hover { color: var(--text); border-color: #333; }
+        .tier-btn.active-silver { background: var(--silver-glow); border-color: var(--silver); color: var(--silver); }
+        .tier-btn.active-gold   { background: var(--gold-glow);   border-color: var(--gold);   color: var(--gold); }
+        .tier-btn.active-platinum { background: var(--platinum-glow); border-color: var(--platinum); color: var(--platinum); }
+
+        /* Plans grid */
+        .plans-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.25rem;
+          padding-bottom: 4rem;
+        }
+
+        @media (max-width: 768px) {
+          .plans-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Plan card */
+        .plan-card {
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          padding: 2rem 1.75rem;
+          position: relative;
+          overflow: hidden;
+          transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+          animation: fadeUp 0.5s ease both;
+          cursor: pointer;
+        }
+
+        .plan-card:nth-child(1) { animation-delay: 0.05s; }
+        .plan-card:nth-child(2) { animation-delay: 0.1s; }
+        .plan-card:nth-child(3) { animation-delay: 0.15s; }
+
+        .plan-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 2px;
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+
+        .plan-card:hover { transform: translateY(-4px); }
+
+        /* Tier-specific accents */
+        .tier-SILVER .plan-card::before { background: linear-gradient(90deg, transparent, var(--silver), transparent); }
+        .tier-SILVER .plan-card:hover   { border-color: rgba(168,178,193,0.4); box-shadow: 0 20px 40px rgba(168,178,193,0.08); }
+        .tier-SILVER .plan-card::before { opacity: 1; }
+
+        .tier-GOLD .plan-card::before { background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+        .tier-GOLD .plan-card:hover   { border-color: rgba(212,168,67,0.4); box-shadow: 0 20px 40px rgba(212,168,67,0.08); }
+        .tier-GOLD .plan-card::before { opacity: 1; }
+
+        .tier-PLATINUM .plan-card::before { background: linear-gradient(90deg, transparent, var(--platinum), transparent); }
+        .tier-PLATINUM .plan-card:hover   { border-color: rgba(232,224,240,0.4); box-shadow: 0 20px 40px rgba(232,224,240,0.08); }
+        .tier-PLATINUM .plan-card::before { opacity: 1; }
+
+        /* Duration badge */
+        .duration-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          font-size: 0.7rem;
+          font-weight: 500;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          padding: 0.3rem 0.75rem;
+          border-radius: 2rem;
+          margin-bottom: 1.5rem;
+        }
+        .badge-MONTHLY   { background: rgba(91,138,240,0.12);  color: #7aa0f5; border: 1px solid rgba(91,138,240,0.25); }
+        .badge-QUARTERLY { background: rgba(124,91,240,0.12); color: #9d82f5; border: 1px solid rgba(124,91,240,0.25); }
+        .badge-YEARLY    { background: rgba(191,91,240,0.12); color: #cc82f5; border: 1px solid rgba(191,91,240,0.25); }
+
+        .plan-name {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.35rem;
+          font-weight: 600;
+          margin-bottom: 0.25rem;
+        }
+
+        .plan-tier-label {
+          font-size: 0.8rem;
+          color: var(--muted);
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          margin-bottom: 1.75rem;
+        }
+
+        .price-row {
+          display: flex;
+          align-items: baseline;
+          gap: 0.4rem;
+          margin-bottom: 0.4rem;
+        }
+
+        .currency { font-size: 1rem; color: var(--muted); margin-top: 0.2rem; }
+
+        .price-amount {
+          font-family: 'Playfair Display', serif;
+          font-size: 2.5rem;
+          font-weight: 700;
+          line-height: 1;
+        }
+
+        .price-period { font-size: 0.85rem; color: var(--muted); }
+
+        .monthly-equiv {
+          font-size: 0.78rem;
+          color: var(--muted);
+          margin-bottom: 2rem;
+        }
+
+        .divider {
+          height: 1px;
+          background: var(--border);
+          margin-bottom: 1.5rem;
+        }
+
+        .savings-tag {
+          font-size: 0.75rem;
+          font-weight: 500;
+          padding: 0.2rem 0.6rem;
+          border-radius: 4px;
+          display: inline-block;
+          margin-bottom: 1.5rem;
+        }
+
+        .tier-SILVER .savings-tag { background: var(--silver-glow); color: var(--silver); }
+        .tier-GOLD   .savings-tag { background: var(--gold-glow);   color: var(--gold); }
+        .tier-PLATINUM .savings-tag { background: var(--platinum-glow); color: var(--platinum); }
+
+        /* Loading & error states */
+        .state-box {
+          grid-column: 1 / -1;
+          text-align: center;
+          padding: 4rem 2rem;
+          color: var(--muted);
+        }
+
+        .spinner {
+          width: 32px; height: 32px;
+          border: 2px solid var(--border);
+          border-top-color: var(--gold);
+          border-radius: 50%;
+          animation: spin 0.7s linear infinite;
+          margin: 0 auto 1rem;
+        }
+
+        .error-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+
+        /* Section header */
+        .section-header {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+          animation: fadeDown 0.5s 0.15s ease both;
+        }
+
+        .tier-label-large {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.5rem;
+          font-weight: 600;
+        }
+
+        .tier-dot {
+          width: 8px; height: 8px;
+          border-radius: 50%;
+          flex-shrink: 0;
+        }
+
+        .dot-SILVER   { background: var(--silver); }
+        .dot-GOLD     { background: var(--gold); }
+        .dot-PLATINUM { background: var(--platinum); }
+
+        .plan-count { font-size: 0.8rem; color: var(--muted); }
+
+        /* Animations */
+        @keyframes fadeDown {
+          from { opacity: 0; transform: translateY(-12px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <div class="logo">FirstClub</div>
+        <h1>Choose Your Membership</h1>
+        <p class="subtitle">Unlock exclusive benefits with every plan</p>
+    </header>
+
+    <nav class="tier-nav" id="tierNav"></nav>
+
+    <div id="sectionHeader" class="section-header" style="display:none">
+        <span class="tier-dot" id="tierDot"></span>
+        <span class="tier-label-large" id="tierLabelLarge"></span>
+        <span class="plan-count" id="planCount"></span>
+    </div>
+
+    <div class="plans-grid" id="plansGrid">
+        <div class="state-box">
+            <div class="spinner"></div>
+            <p>Loading plans…</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_URL = 'http://localhost:8080/api/plans';
+
+    const TIER_META = {
+      SILVER:   { color: 'var(--silver)',   label: 'Silver',   btnClass: 'active-silver' },
+      GOLD:     { color: 'var(--gold)',     label: 'Gold',     btnClass: 'active-gold' },
+      PLATINUM: { color: 'var(--platinum)', label: 'Platinum', btnClass: 'active-platinum' }
+    };
+
+    const DURATION_ORDER = { MONTHLY: 1, QUARTERLY: 2, YEARLY: 3 };
+
+    let allPlans = [];
+    let activeTier = 'GOLD';
+
+    // --- Fetch ---
+    async function fetchPlans() {
+      try {
+        const res = await fetch(API_URL);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        allPlans = await res.json();
+        buildTierNav();
+        renderPlans(activeTier);
+      } catch (err) {
+        showError(err.message);
+      }
+    }
+
+    // --- Tier nav ---
+    function buildTierNav() {
+      const nav = document.getElementById('tierNav');
+      const tiers = [...new Set(allPlans.map(p => p.tier))].sort((a,b) => {
+        const order = { SILVER:1, GOLD:2, PLATINUM:3 };
+        return order[a] - order[b];
+      });
+      nav.innerHTML = tiers.map(tier => `
+        <button class="tier-btn ${tier === activeTier ? TIER_META[tier].btnClass : ''}"
+                data-tier="${tier}" onclick="selectTier('${tier}')">
+          ${TIER_META[tier].label}
+        </button>
+      `).join('');
+    }
+
+    function selectTier(tier) {
+      activeTier = tier;
+      document.querySelectorAll('.tier-btn').forEach(btn => {
+        btn.className = 'tier-btn' + (btn.dataset.tier === tier ? ` ${TIER_META[tier].btnClass}` : '');
+      });
+      renderPlans(tier);
+    }
+
+    // --- Render ---
+    function renderPlans(tier) {
+      const grid = document.getElementById('plansGrid');
+      const plans = allPlans
+        .filter(p => p.tier === tier)
+        .sort((a,b) => DURATION_ORDER[a.duration] - DURATION_ORDER[b.duration]);
+
+      // Section header
+      const header = document.getElementById('sectionHeader');
+      header.style.display = 'flex';
+      document.getElementById('tierDot').className = `tier-dot dot-${tier}`;
+      document.getElementById('tierLabelLarge').textContent = TIER_META[tier].label + ' Plans';
+      document.getElementById('tierLabelLarge').style.color = TIER_META[tier].color;
+      document.getElementById('planCount').textContent = `${plans.length} plan${plans.length !== 1 ? 's' : ''} available`;
+
+      grid.className = `plans-grid tier-${tier}`;
+      grid.innerHTML = plans.map(plan => cardHTML(plan, tier)).join('');
+    }
+
+    function cardHTML(plan, tier) {
+      const monthly = monthlyPrice(plan);
+      const savings = savingsText(plan);
+      const durationLabel = plan.duration.charAt(0) + plan.duration.slice(1).toLowerCase();
+      const periodLabel = plan.duration === 'MONTHLY' ? '/mo' :
+                          plan.duration === 'QUARTERLY' ? '/3 mo' : '/yr';
+
+      return `
+        <div class="plan-card">
+          <div class="duration-badge badge-${plan.duration}">${durationLabel}</div>
+          <div class="plan-name">${plan.name}</div>
+          <div class="plan-tier-label">${TIER_META[tier].label} Membership</div>
+          <div class="price-row">
+            <span class="currency">₹</span>
+            <span class="price-amount">${formatPrice(plan.price)}</span>
+            <span class="price-period">${periodLabel}</span>
+          </div>
+          ${plan.duration !== 'MONTHLY' ? `<div class="monthly-equiv">₹${monthly}/month equivalent</div>` : '<div class="monthly-equiv">&nbsp;</div>'}
+          <div class="divider"></div>
+          ${savings ? `<div class="savings-tag">Save ${savings} vs monthly</div>` : ''}
+        </div>`;
+    }
+
+    function monthlyPrice(plan) {
+      const months = { MONTHLY: 1, QUARTERLY: 3, YEARLY: 12 };
+      return (plan.price / months[plan.duration]).toFixed(0);
+    }
+
+    function savingsText(plan) {
+      if (plan.duration === 'MONTHLY') return null;
+      const months = { QUARTERLY: 3, YEARLY: 12 };
+      const monthlyPlan = allPlans.find(p => p.tier === plan.tier && p.duration === 'MONTHLY');
+      if (!monthlyPlan) return null;
+      const wouldPay = monthlyPlan.price * months[plan.duration];
+      const saved = wouldPay - plan.price;
+      const pct = Math.round((saved / wouldPay) * 100);
+      return `${pct}%`;
+    }
+
+    function formatPrice(p) {
+      return Number(p).toLocaleString('en-IN');
+    }
+
+    function showError(msg) {
+      document.getElementById('plansGrid').innerHTML = `
+        <div class="state-box">
+          <div class="error-icon">⚠</div>
+          <p style="color:var(--text); margin-bottom:0.5rem">Could not load plans</p>
+          <p style="font-size:0.8rem">${msg}</p>
+          <p style="font-size:0.75rem; margin-top:1rem; color:var(--muted)">
+            Make sure your Spring Boot server is running on <code>localhost:8080</code>
+          </p>
+        </div>`;
+    }
+
+    fetchPlans();
+</script>
+</body>
+</html>
