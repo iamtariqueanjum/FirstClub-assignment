@@ -49,4 +49,6 @@ public class UserSubscription {
 
     private LocalDateTime cancelledAt;
 
+    private String tierChangeReason;
+
 }

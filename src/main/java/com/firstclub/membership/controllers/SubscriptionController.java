@@ -2,6 +2,7 @@ package com.firstclub.membership.controllers;
 
 import com.firstclub.membership.dto.SubscribeRequest;
 import com.firstclub.membership.entity.UserSubscription;
+import com.firstclub.membership.enums.MembershipTier;
 import com.firstclub.membership.services.SubscriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +30,17 @@ public class SubscriptionController {
         return ResponseEntity.ok(subscriptionService.getActiveSubscription(userId));
     }
 
+
+    @PatchMapping("/user/{userId}/tier")
+    public ResponseEntity<UserSubscription> changeTier(
+            @PathVariable Long userId,
+            @RequestParam MembershipTier newTier) {
+        return ResponseEntity.ok(subscriptionService.changeTier(userId, newTier));
+    }
+
+    @DeleteMapping("/user/{userId}")
+    public ResponseEntity<UserSubscription> cancel(@PathVariable Long userId) {
+        return ResponseEntity.ok(subscriptionService.cancel(userId));
+    }
 
 }
