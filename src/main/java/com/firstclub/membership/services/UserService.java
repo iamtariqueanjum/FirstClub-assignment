@@ -7,6 +7,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -27,6 +29,15 @@ public class UserService {
     public User login(UserDto.LoginRequest request) {
         return userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @Transactional
+    public User recordOrder(Long userId, BigDecimal orderValue) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setTotalOrderCount(user.getTotalOrderCount() + 1);
+        user.setMonthlyOrderValue(user.getMonthlyOrderValue().add(orderValue));
+        return userRepository.save(user);
     }
 
 }

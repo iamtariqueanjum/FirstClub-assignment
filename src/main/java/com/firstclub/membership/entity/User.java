@@ -1,10 +1,13 @@
 package com.firstclub.membership.entity;
 
+import com.firstclub.membership.enums.MembershipTier;
+import com.firstclub.membership.enums.UserCohort;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -31,5 +34,13 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @Column(nullable = false)
+    private BigDecimal monthlyOrderValue = BigDecimal.ZERO;
+
+    @Column(nullable = false)
+    private Integer totalOrderCount = 0;
+
+    @Enumerated(EnumType.STRING)
+    private UserCohort cohort =  UserCohort.REGULAR;
 
 }

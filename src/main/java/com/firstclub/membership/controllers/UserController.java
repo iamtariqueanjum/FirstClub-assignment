@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
@@ -35,7 +37,12 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-
+    @PostMapping("/{userId}/order")
+    public User recordOrder(
+            @PathVariable Long userId,
+            @RequestParam BigDecimal orderValue) {
+        return userService.recordOrder(userId, orderValue);
+    }
 
 
 }
