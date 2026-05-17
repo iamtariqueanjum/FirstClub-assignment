@@ -49,4 +49,10 @@ public class SubscriptionService {
         return subscriptionRepository.save(subscription);
     }
 
+    public UserSubscription getActiveSubscription(Long userId) {
+        return subscriptionRepository
+                .findByUserIdAndStatus(userId, SubscriptionStatus.ACTIVE)
+                .orElse(null);
+    }
+
 }

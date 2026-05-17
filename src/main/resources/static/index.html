@@ -7,491 +7,248 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
         :root {
-          --bg: #0c0c0f;
-          --surface: #13131a;
-          --border: #1e1e2e;
-          --silver: #a8b2c1;
-          --silver-glow: rgba(168,178,193,0.15);
-          --gold: #d4a843;
-          --gold-glow: rgba(212,168,67,0.15);
-          --platinum: #e8e0f0;
-          --platinum-glow: rgba(232,224,240,0.15);
-          --text: #f0eff4;
-          --muted: #6b6b80;
-          --monthly: #5b8af0;
-          --quarterly: #7c5bf0;
-          --yearly: #bf5bf0;
+          --bg: #0c0c0f; --surface: #13131a; --border: #1e1e2e;
+          --silver: #a8b2c1; --silver-glow: rgba(168,178,193,0.15);
+          --gold: #d4a843;   --gold-glow: rgba(212,168,67,0.15);
+          --platinum: #e8e0f0; --platinum-glow: rgba(232,224,240,0.15);
+          --text: #f0eff4; --muted: #6b6b80;
         }
-
-        body {
-          background: var(--bg);
-          color: var(--text);
-          font-family: 'DM Sans', sans-serif;
-          min-height: 100vh;
-          overflow-x: hidden;
-        }
-
-        /* Ambient background */
+        body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
         body::before {
-          content: '';
-          position: fixed;
-          inset: 0;
-          background:
-            radial-gradient(ellipse 60% 40% at 20% 20%, rgba(91,138,240,0.06) 0%, transparent 60%),
-            radial-gradient(ellipse 50% 40% at 80% 80%, rgba(212,168,67,0.06) 0%, transparent 60%);
-          pointer-events: none;
-          z-index: 0;
+          content: ''; position: fixed; inset: 0;
+          background: radial-gradient(ellipse 60% 40% at 20% 20%, rgba(91,138,240,0.06) 0%, transparent 60%),
+                      radial-gradient(ellipse 50% 40% at 80% 80%, rgba(212,168,67,0.06) 0%, transparent 60%);
+          pointer-events: none; z-index: 0;
         }
 
+        /* TOP BAR */
+        .top-bar {
+          position: fixed; top: 0; right: 0; left: 0;
+          display: flex; justify-content: space-between; align-items: center;
+          padding: 1rem 2rem; z-index: 50;
+          background: rgba(12,12,15,0.8); backdrop-filter: blur(12px);
+          border-bottom: 1px solid var(--border);
+        }
+        .top-bar-logo { font-family: 'Playfair Display', serif; font-size: 0.9rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); }
+        .top-bar-right { display: flex; gap: 0.75rem; align-items: center; }
+        .auth-btn {
+          padding: 0.55rem 1rem; border-radius: 999px; border: 1px solid var(--border);
+          background: rgba(19,19,26,0.7); backdrop-filter: blur(10px);
+          color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500;
+          cursor: pointer; transition: all 0.2s;
+        }
+        .auth-btn:hover { border-color: #333; transform: translateY(-1px); }
+        .auth-btn-primary { background: var(--gold-glow); border-color: var(--gold); color: var(--gold); }
+        .auth-btn-ghost { background: transparent; border-color: var(--border); color: var(--muted); font-size: 0.78rem; }
+        .nav-avatar {
+          width: 30px; height: 30px; border-radius: 50%;
+          background: var(--gold-glow); border: 1px solid var(--gold);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 0.72rem; color: var(--gold); font-weight: 700;
+        }
+        .nav-username { font-size: 0.85rem; color: var(--text); }
+
+        /* MAIN */
         .wrapper { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-
-        /* Header */
-        header {
-          padding: 3.5rem 0 2rem;
-          text-align: center;
-          animation: fadeDown 0.6s ease both;
-        }
-
-        .logo {
-          font-family: 'Playfair Display', serif;
-          font-size: 1rem;
-          letter-spacing: 0.3em;
-          text-transform: uppercase;
-          color: var(--muted);
-          margin-bottom: 1.5rem;
-        }
-
+        header { padding: 6rem 0 2rem; text-align: center; animation: fadeDown 0.6s ease both; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
         h1 {
-          font-family: 'Playfair Display', serif;
-          font-size: clamp(2.2rem, 5vw, 3.5rem);
-          font-weight: 700;
-          line-height: 1.15;
-          margin-bottom: 1rem;
+          font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.5rem);
+          font-weight: 700; line-height: 1.15; margin-bottom: 1rem;
           background: linear-gradient(135deg, #f0eff4 40%, #a8b2c1);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
+        .subtitle { color: var(--muted); font-size: 1rem; font-weight: 300; letter-spacing: 0.02em; }
 
-        .subtitle {
-          color: var(--muted);
-          font-size: 1rem;
-          font-weight: 300;
-          letter-spacing: 0.02em;
-        }
-
-        /* Tier tabs */
-        .tier-nav {
-          display: flex;
-          justify-content: center;
-          gap: 0.5rem;
-          margin: 2.5rem 0;
-          animation: fadeDown 0.6s 0.1s ease both;
-        }
-
-        .tier-btn {
-          padding: 0.5rem 1.4rem;
-          border-radius: 2rem;
-          border: 1px solid var(--border);
-          background: transparent;
-          color: var(--muted);
-          font-family: 'DM Sans', sans-serif;
-          font-size: 0.85rem;
-          font-weight: 500;
-          letter-spacing: 0.05em;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
+        /* TIER NAV */
+        .tier-nav { display: flex; justify-content: center; gap: 0.5rem; margin: 2.5rem 0; animation: fadeDown 0.6s 0.1s ease both; }
+        .tier-btn { padding: 0.5rem 1.4rem; border-radius: 2rem; border: 1px solid var(--border); background: transparent; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; transition: all 0.2s; }
         .tier-btn:hover { color: var(--text); border-color: #333; }
-        .tier-btn.active-silver { background: var(--silver-glow); border-color: var(--silver); color: var(--silver); }
-        .tier-btn.active-gold   { background: var(--gold-glow);   border-color: var(--gold);   color: var(--gold); }
+        .tier-btn.active-silver   { background: var(--silver-glow); border-color: var(--silver); color: var(--silver); }
+        .tier-btn.active-gold     { background: var(--gold-glow);   border-color: var(--gold);   color: var(--gold); }
         .tier-btn.active-platinum { background: var(--platinum-glow); border-color: var(--platinum); color: var(--platinum); }
 
-        /* Plans grid */
-        .plans-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1.25rem;
-          padding-bottom: 4rem;
-        }
+        /* SECTION HEADER */
+        .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; animation: fadeDown 0.5s 0.15s ease both; }
+        .tier-label-large { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 600; }
+        .tier-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .dot-SILVER { background: var(--silver); } .dot-GOLD { background: var(--gold); } .dot-PLATINUM { background: var(--platinum); }
+        .plan-count { font-size: 0.8rem; color: var(--muted); }
 
-        @media (max-width: 768px) {
-          .plans-grid { grid-template-columns: 1fr; }
-        }
+        /* PLANS GRID */
+        .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; padding-bottom: 4rem; }
+        @media (max-width: 768px) { .plans-grid { grid-template-columns: 1fr; } }
 
-        /* Plan card */
+        /* PLAN CARD */
         .plan-card {
-          background: var(--surface);
-          border: 1px solid var(--border);
-          border-radius: 16px;
-          padding: 2rem 1.75rem;
-          position: relative;
-          overflow: hidden;
+          background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+          padding: 2rem 1.75rem; position: relative; overflow: hidden;
           transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-          animation: fadeUp 0.5s ease both;
-          cursor: pointer;
+          animation: fadeUp 0.5s ease both; display: flex; flex-direction: column;
         }
-
-        .plan-card:nth-child(1) { animation-delay: 0.05s; }
-        .plan-card:nth-child(2) { animation-delay: 0.1s; }
-        .plan-card:nth-child(3) { animation-delay: 0.15s; }
-
-        .plan-card::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 0; right: 0;
-          height: 2px;
-          opacity: 0;
-          transition: opacity 0.3s;
-        }
-
+        .plan-card:nth-child(1) { animation-delay: 0.05s; } .plan-card:nth-child(2) { animation-delay: 0.1s; } .plan-card:nth-child(3) { animation-delay: 0.15s; }
+        .plan-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
         .plan-card:hover { transform: translateY(-4px); }
-
-        /* Tier-specific accents */
-        .tier-SILVER .plan-card::before { background: linear-gradient(90deg, transparent, var(--silver), transparent); }
+        .tier-SILVER .plan-card::before { background: linear-gradient(90deg, transparent, var(--silver), transparent); opacity: 1; }
         .tier-SILVER .plan-card:hover   { border-color: rgba(168,178,193,0.4); box-shadow: 0 20px 40px rgba(168,178,193,0.08); }
-        .tier-SILVER .plan-card::before { opacity: 1; }
-
-        .tier-GOLD .plan-card::before { background: linear-gradient(90deg, transparent, var(--gold), transparent); }
-        .tier-GOLD .plan-card:hover   { border-color: rgba(212,168,67,0.4); box-shadow: 0 20px 40px rgba(212,168,67,0.08); }
-        .tier-GOLD .plan-card::before { opacity: 1; }
-
-        .tier-PLATINUM .plan-card::before { background: linear-gradient(90deg, transparent, var(--platinum), transparent); }
+        .tier-GOLD .plan-card::before   { background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 1; }
+        .tier-GOLD .plan-card:hover     { border-color: rgba(212,168,67,0.4); box-shadow: 0 20px 40px rgba(212,168,67,0.08); }
+        .tier-PLATINUM .plan-card::before { background: linear-gradient(90deg, transparent, var(--platinum), transparent); opacity: 1; }
         .tier-PLATINUM .plan-card:hover   { border-color: rgba(232,224,240,0.4); box-shadow: 0 20px 40px rgba(232,224,240,0.08); }
-        .tier-PLATINUM .plan-card::before { opacity: 1; }
 
-        /* Duration badge */
-        .duration-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.4rem;
-          font-size: 0.7rem;
-          font-weight: 500;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          padding: 0.3rem 0.75rem;
-          border-radius: 2rem;
-          margin-bottom: 1.5rem;
-        }
+        .duration-badge { display: inline-flex; align-items: center; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.75rem; border-radius: 2rem; margin-bottom: 1.5rem; width: fit-content; }
         .badge-MONTHLY   { background: rgba(91,138,240,0.12);  color: #7aa0f5; border: 1px solid rgba(91,138,240,0.25); }
         .badge-QUARTERLY { background: rgba(124,91,240,0.12); color: #9d82f5; border: 1px solid rgba(124,91,240,0.25); }
         .badge-YEARLY    { background: rgba(191,91,240,0.12); color: #cc82f5; border: 1px solid rgba(191,91,240,0.25); }
-
-        .plan-name {
-          font-family: 'Playfair Display', serif;
-          font-size: 1.35rem;
-          font-weight: 600;
-          margin-bottom: 0.25rem;
-        }
-
-        .plan-tier-label {
-          font-size: 0.8rem;
-          color: var(--muted);
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          margin-bottom: 1.75rem;
-        }
-
-        .price-row {
-          display: flex;
-          align-items: baseline;
-          gap: 0.4rem;
-          margin-bottom: 0.4rem;
-        }
-
+        .plan-name { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 600; margin-bottom: 0.25rem; }
+        .plan-tier-label { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.75rem; }
+        .price-row { display: flex; align-items: baseline; gap: 0.4rem; margin-bottom: 0.4rem; }
         .currency { font-size: 1rem; color: var(--muted); margin-top: 0.2rem; }
-
-        .price-amount {
-          font-family: 'Playfair Display', serif;
-          font-size: 2.5rem;
-          font-weight: 700;
-          line-height: 1;
-        }
-
+        .price-amount { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; line-height: 1; }
         .price-period { font-size: 0.85rem; color: var(--muted); }
-
-        .monthly-equiv {
-          font-size: 0.78rem;
-          color: var(--muted);
-          margin-bottom: 2rem;
-        }
-
-        .divider {
-          height: 1px;
-          background: var(--border);
-          margin-bottom: 1.5rem;
-        }
-
-        .savings-tag {
-          font-size: 0.75rem;
-          font-weight: 500;
-          padding: 0.2rem 0.6rem;
-          border-radius: 4px;
-          display: inline-block;
-          margin-bottom: 1.5rem;
-        }
-
+        .monthly-equiv { font-size: 0.78rem; color: var(--muted); margin-bottom: 2rem; }
+        .divider { height: 1px; background: var(--border); margin-bottom: 1.5rem; }
+        .savings-tag { font-size: 0.75rem; font-weight: 500; padding: 0.2rem 0.6rem; border-radius: 4px; display: inline-block; margin-bottom: 1.5rem; }
         .tier-SILVER .savings-tag { background: var(--silver-glow); color: var(--silver); }
         .tier-GOLD   .savings-tag { background: var(--gold-glow);   color: var(--gold); }
         .tier-PLATINUM .savings-tag { background: var(--platinum-glow); color: var(--platinum); }
 
-        /* Loading & error states */
-        .state-box {
-          grid-column: 1 / -1;
-          text-align: center;
-          padding: 4rem 2rem;
-          color: var(--muted);
+        /* SUBSCRIBE BUTTON */
+        .card-spacer { flex: 1; min-height: 0.5rem; }
+        .subscribe-btn {
+          width: 100%; margin-top: 1rem; padding: 0.65rem 1rem; border-radius: 10px;
+          border: 1px solid var(--border); background: transparent; color: var(--text);
+          font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500;
+          cursor: pointer; transition: all 0.2s;
         }
+        .subscribe-btn:hover { background: rgba(255,255,255,0.04); border-color: #444; }
+        .subscribe-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .subscribe-btn.done { color: #6fcf6f !important; border-color: #2d5a2d !important; cursor: default; }
+        .tier-SILVER .subscribe-btn:hover   { border-color: var(--silver); color: var(--silver); }
+        .tier-GOLD   .subscribe-btn:hover   { border-color: var(--gold);   color: var(--gold); }
+        .tier-PLATINUM .subscribe-btn:hover { border-color: var(--platinum); color: var(--platinum); }
 
-        .spinner {
-          width: 32px; height: 32px;
-          border: 2px solid var(--border);
-          border-top-color: var(--gold);
-          border-radius: 50%;
-          animation: spin 0.7s linear infinite;
-          margin: 0 auto 1rem;
-        }
-
+        /* LOADING */
+        .state-box { grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; color: var(--muted); }
+        .spinner { width: 32px; height: 32px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 1rem; }
         .error-icon { font-size: 2rem; margin-bottom: 0.75rem; }
 
-        /* Section header */
-        .section-header {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          margin-bottom: 1.5rem;
-          animation: fadeDown 0.5s 0.15s ease both;
+        /* AUTH MODAL */
+        .modal-overlay {
+          position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+          background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+          opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 100;
         }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
+        .auth-modal { width: 100%; max-width: 420px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 2rem; animation: fadeUp 0.25s ease; }
+        .modal-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .modal-subtitle { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .modal-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--muted); font-size: 0.82rem; }
+        .form-group input { width: 100%; padding: 0.9rem 1rem; border-radius: 12px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); color: var(--text); font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
+        .form-group input:focus { border-color: var(--gold); }
+        .modal-submit-btn { width: 100%; padding: 0.95rem 1rem; border-radius: 12px; border: 1px solid var(--gold); background: var(--gold-glow); color: var(--gold); font-family: inherit; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; margin-top: 0.25rem; }
+        .modal-submit-btn:hover { transform: translateY(-1px); background: rgba(212,168,67,0.25); }
+        .modal-error { margin-top: 0.75rem; color: #d86f6f; font-size: 0.82rem; min-height: 1rem; }
 
-        .tier-label-large {
-          font-family: 'Playfair Display', serif;
-          font-size: 1.5rem;
-          font-weight: 600;
-        }
+        /* SUBSCRIPTION MODAL */
+        .sub-modal { width: 100%; max-width: 460px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 2rem; animation: fadeUp 0.25s ease; }
+        .sub-modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+        .sub-modal-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; }
+        .sub-modal-sub { color: var(--muted); font-size: 0.82rem; margin-top: 0.25rem; }
+        .sub-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; }
+        .sub-row { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+        .sub-row:last-child { border-bottom: none; }
+        .sub-label { color: var(--muted); }
+        .tier-badge { padding: 0.2rem 0.65rem; border-radius: 2rem; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; }
+        .tier-SILVER-badge   { background: var(--silver-glow); color: var(--silver); border: 1px solid var(--silver); }
+        .tier-GOLD-badge     { background: var(--gold-glow); color: var(--gold); border: 1px solid var(--gold); }
+        .tier-PLATINUM-badge { background: var(--platinum-glow); color: var(--platinum); border: 1px solid var(--platinum); }
+        .status-ACTIVE    { color: #6fcf6f; }
+        .status-CANCELLED { color: #cf6f6f; }
+        .status-EXPIRED   { color: var(--muted); }
+        .no-sub { color: var(--muted); font-size: 0.9rem; text-align: center; padding: 2rem 0; }
+        .close-btn { background: transparent; border: none; color: var(--muted); font-size: 1.2rem; cursor: pointer; padding: 0.25rem; line-height: 1; }
+        .close-btn:hover { color: var(--text); }
 
-        .tier-dot {
-          width: 8px; height: 8px;
-          border-radius: 50%;
-          flex-shrink: 0;
-        }
+        /* TOAST */
+        .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(10px); padding: 0.8rem 1.4rem; border-radius: 12px; font-size: 0.85rem; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; z-index: 200; white-space: nowrap; }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.success { background: #1a2e1a; border: 1px solid #2d5a2d; color: #6fcf6f; }
+        .toast.error   { background: #2e1a1a; border: 1px solid #5a2d2d; color: #cf6f6f; }
 
-        .dot-SILVER   { background: var(--silver); }
-        .dot-GOLD     { background: var(--gold); }
-        .dot-PLATINUM { background: var(--platinum); }
-
-        .plan-count { font-size: 0.8rem; color: var(--muted); }
-
-        /* Animations */
-        @keyframes fadeDown {
-          from { opacity: 0; transform: translateY(-12px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(16px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-        /* TOP BAR */
-
-    .top-bar {
-      position: fixed;
-      top: 0;
-      right: 0;
-      left: 0;
-
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-
-      padding: 1.25rem 2rem;
-
-      z-index: 50;
-
-      pointer-events: none;
-    }
-
-    .top-bar-right {
-      display: flex;
-      gap: 0.75rem;
-      pointer-events: auto;
-    }
-
-    .auth-btn {
-      padding: 0.55rem 1rem;
-
-      border-radius: 999px;
-      border: 1px solid var(--border);
-
-      background: rgba(19,19,26,0.7);
-      backdrop-filter: blur(10px);
-
-      color: var(--text);
-
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 500;
-
-      cursor: pointer;
-
-      transition: all 0.2s;
-    }
-
-    .auth-btn:hover {
-      border-color: #333;
-      transform: translateY(-1px);
-    }
-
-    .auth-btn-primary {
-      background: var(--gold-glow);
-      border-color: var(--gold);
-      color: var(--gold);
-    }
-
-    /* MODAL */
-
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(4px);
-
-      opacity: 0;
-      pointer-events: none;
-
-      transition: opacity 0.25s ease;
-
-      z-index: 100;
-    }
-
-    .modal-overlay.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .auth-modal {
-      width: 100%;
-      max-width: 420px;
-
-      background: var(--surface);
-
-      border: 1px solid var(--border);
-      border-radius: 18px;
-
-      padding: 2rem;
-
-      animation: fadeUp 0.25s ease;
-    }
-
-    .modal-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .modal-subtitle {
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-
-      color: var(--muted);
-
-      font-size: 0.82rem;
-    }
-
-    .form-group input {
-      width: 100%;
-
-      padding: 0.9rem 1rem;
-
-      border-radius: 12px;
-      border: 1px solid var(--border);
-
-      background: rgba(255,255,255,0.02);
-
-      color: var(--text);
-
-      font-family: inherit;
-    }
-
-    .form-group input:focus {
-      outline: none;
-      border-color: var(--gold);
-    }
-
-    .modal-submit-btn {
-      width: 100%;
-
-      padding: 0.95rem 1rem;
-
-      border-radius: 12px;
-      border: 1px solid var(--gold);
-
-      background: var(--gold-glow);
-
-      color: var(--gold);
-
-      font-family: inherit;
-      font-weight: 600;
-
-      cursor: pointer;
-
-      transition: all 0.2s;
-    }
-
-    .modal-submit-btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .modal-error {
-      margin-top: 1rem;
-
-      color: #d86f6f;
-
-      font-size: 0.82rem;
-    }
-
-    @media (max-width: 768px) {
-
-      .top-bar {
-        padding: 1rem;
-      }
-
-      .auth-modal {
-        margin: 1rem;
-      }
-
-    }
+        @keyframes fadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeUp   { from { opacity: 0; transform: translateY(16px);  } to { opacity: 1; transform: translateY(0); } }
+        @keyframes spin     { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-<div class="top-bar">
-    <div class="top-bar-right">
-        <button class="auth-btn" onclick="openModal('login')">
-            Sign in
-        </button>
 
-        <button class="auth-btn auth-btn-primary" onclick="openModal('register')">
-            Join for free
-        </button>
+<!-- TOP BAR -->
+<div class="top-bar">
+    <div class="top-bar-logo">FirstClub</div>
+    <div class="top-bar-right" id="topBarRight">
+        <button class="auth-btn" onclick="openModal('login')">Sign in</button>
+        <button class="auth-btn auth-btn-primary" onclick="openModal('register')">Join for free</button>
     </div>
 </div>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authOverlay" onclick="closeModalOnBg(event, 'authOverlay')">
+    <div class="auth-modal">
+        <div class="logo">FirstClub</div>
+        <h2 id="modalTitle" class="modal-title">Welcome back</h2>
+        <p id="modalSub" class="modal-subtitle">Sign in to continue</p>
+        <div class="modal-tabs">
+            <button class="tier-btn active-gold" id="tabLogin" onclick="switchTab('login')">Sign in</button>
+            <button class="tier-btn" id="tabRegister" onclick="switchTab('register')">Create account</button>
+        </div>
+        <!-- LOGIN -->
+        <div id="formLogin">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="loginEmail" placeholder="you@example.com" onkeydown="if(event.key==='Enter') doLogin()" />
+            </div>
+            <button class="modal-submit-btn" onclick="doLogin()">Sign in</button>
+        </div>
+        <!-- REGISTER -->
+        <div id="formRegister" style="display:none">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" id="regName" placeholder="Your name" />
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="regEmail" placeholder="you@example.com" onkeydown="if(event.key==='Enter') doRegister()" />
+            </div>
+            <button class="modal-submit-btn" onclick="doRegister()">Create account</button>
+        </div>
+        <p id="modalError" class="modal-error"></p>
+    </div>
+</div>
+
+<!-- SUBSCRIPTION MODAL -->
+<div class="modal-overlay" id="subOverlay" onclick="closeModalOnBg(event, 'subOverlay')">
+    <div class="sub-modal">
+        <div class="sub-modal-header">
+            <div>
+                <div class="sub-modal-title">My Subscription</div>
+                <div class="sub-modal-sub" id="subModalSub"></div>
+            </div>
+            <button class="close-btn" onclick="closeSubModal()">&#x2715;</button>
+        </div>
+        <div id="subContent">
+            <div class="state-box"><div class="spinner"></div></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- MAIN -->
 <div class="wrapper">
     <header>
         <div class="logo">FirstClub</div>
@@ -508,301 +265,273 @@
     </div>
 
     <div class="plans-grid" id="plansGrid">
-        <div class="state-box">
-            <div class="spinner"></div>
-            <p>Loading plans…</p>
-        </div>
+        <div class="state-box"><div class="spinner"></div><p>Loading plans…</p></div>
     </div>
 </div>
-<!-- AUTH MODAL -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
-    <div class="auth-modal">
-        <div class="logo">FirstClub</div>
-        <h2 id="modalTitle" class="modal-title">
-            Welcome back
-        </h2>
-        <p id="modalSub" class="modal-subtitle">
-            Sign in to continue
-        </p>
-        <div class="tier-nav" style="margin-top:1.5rem; margin-bottom:2rem">
-            <button
-                    class="tier-btn active-gold"
-                    id="tabLogin"
-                    onclick="switchTab('login')"
-            >
-                Sign in
-            </button>
-            <button
-                    class="tier-btn"
-                    id="tabRegister"
-                    onclick="switchTab('register')"
-            >
-                Create account
-            </button>
-        </div>
-        <!-- LOGIN -->
-        <div id="formLogin">
-            <div class="form-group">
-                <label>Email</label>
-                <input
-                        type="email"
-                        id="loginEmail"
-                        placeholder="you@example.com"
-                >
-            </div>
-            <button class="modal-submit-btn" onclick="doLogin()">
-                Sign in
-            </button>
-        </div>
-        <!-- REGISTER -->
-        <div id="formRegister" style="display:none">
-            <div class="form-group">
-                <label>Name</label>
-                <input
-                        type="text"
-                        id="regName"
-                        placeholder="Your name"
-                >
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input
-                        type="email"
-                        id="regEmail"
-                        placeholder="you@example.com"
-                >
-            </div>
-            <button class="modal-submit-btn" onclick="doRegister()">
-                Create account
-        </div>
-        <p id="modalError" class="modal-error"></p>
-    </div>
-</div>
-<script>
-    const API_URL = 'http://localhost:8080/api/plans';
 
+<script>
+    const API = 'http://localhost:8080';
     const TIER_META = {
       SILVER:   { color: 'var(--silver)',   label: 'Silver',   btnClass: 'active-silver' },
       GOLD:     { color: 'var(--gold)',     label: 'Gold',     btnClass: 'active-gold' },
       PLATINUM: { color: 'var(--platinum)', label: 'Platinum', btnClass: 'active-platinum' }
     };
-
     const DURATION_ORDER = { MONTHLY: 1, QUARTERLY: 2, YEARLY: 3 };
 
-    let allPlans = [];
+    let allPlans   = [];
     let activeTier = 'GOLD';
+    let currentUser = null;
 
-    // --- Fetch ---
-    async function fetchPlans() {
+    // ── AUTH ──────────────────────────────────────────────────
+    function openModal(tab) {
+      switchTab(tab);
+      document.getElementById('modalError').textContent = '';
+      document.getElementById('authOverlay').classList.add('open');
+    }
+
+    function closeAuthModal() {
+      document.getElementById('authOverlay').classList.remove('open');
+    }
+
+    function closeSubModal() {
+      document.getElementById('subOverlay').classList.remove('open');
+    }
+
+    function closeModalOnBg(e, id) {
+      if (e.target.id === id) document.getElementById(id).classList.remove('open');
+    }
+
+    function switchTab(tab) {
+      const isLogin = tab === 'login';
+      document.getElementById('formLogin').style.display    = isLogin ? 'block' : 'none';
+      document.getElementById('formRegister').style.display = isLogin ? 'none' : 'block';
+      document.getElementById('tabLogin').className    = 'tier-btn' + (isLogin ? ' active-gold' : '');
+      document.getElementById('tabRegister').className = 'tier-btn' + (!isLogin ? ' active-gold' : '');
+      document.getElementById('modalTitle').textContent = isLogin ? 'Welcome back' : 'Create account';
+      document.getElementById('modalSub').textContent   = isLogin ? 'Sign in to continue' : 'Join FirstClub for free';
+      document.getElementById('modalError').textContent = '';
+    }
+
+    async function doLogin() {
+      const email = document.getElementById('loginEmail').value.trim();
+      if (!email) { setModalError('Please enter your email'); return; }
       try {
-        const res = await fetch(API_URL);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        allPlans = await res.json();
-        buildTierNav();
-        renderPlans(activeTier);
-      } catch (err) {
-        showError(err.message);
+        const res  = await fetch(`${API}/api/users/login`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Login failed');
+        onAuthSuccess(data);
+      } catch (err) { setModalError(err.message); }
+    }
+
+    async function doRegister() {
+      const name  = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      if (!name || !email) { setModalError('Please fill all fields'); return; }
+      try {
+        const res  = await fetch(`${API}/api/users/register`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Registration failed');
+        // After register → switch to login with prefilled email
+        document.getElementById('loginEmail').value = email;
+        switchTab('login');
+        setModalError('');
+        showToast('Account created! Please sign in.', 'success');
+      } catch (err) { setModalError(err.message); }
+    }
+
+    function onAuthSuccess(user) {
+      currentUser = user;
+      closeAuthModal();
+      renderTopBar();
+      renderPlans(activeTier);
+      showToast('Welcome, ' + user.name + '!', 'success');
+    }
+
+    function logout() {
+      currentUser = null;
+      renderTopBar();
+      renderPlans(activeTier);
+      showToast('Signed out', 'success');
+    }
+
+    function setModalError(msg) {
+      document.getElementById('modalError').textContent = msg;
+    }
+
+    function renderTopBar() {
+      const el = document.getElementById('topBarRight');
+      if (currentUser) {
+        const initials = currentUser.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+        el.innerHTML =
+          '<div class="nav-avatar">' + initials + '</div>' +
+          '<span class="nav-username">Welcome, ' + currentUser.name + '</span>' +
+          '<button class="auth-btn" onclick="openSubModal()">My Subscription</button>' +
+          '<button class="auth-btn auth-btn-ghost" onclick="logout()">Sign out</button>';
+      } else {
+        el.innerHTML =
+          '<button class="auth-btn" onclick="openModal(\'login\')">Sign in</button>' +
+          '<button class="auth-btn auth-btn-primary" onclick="openModal(\'register\')">Join for free</button>';
       }
     }
 
-    // --- Tier nav ---
+    // ── SUBSCRIPTION MODAL ────────────────────────────────────
+    async function openSubModal() {
+      document.getElementById('subModalSub').textContent = currentUser.email;
+      document.getElementById('subContent').innerHTML = '<div class="state-box"><div class="spinner"></div></div>';
+      document.getElementById('subOverlay').classList.add('open');
+      try {
+        const res  = await fetch(`${API}/api/subscriptions/user/${currentUser.id}`);
+        const data = await res.json();
+        renderSubContent(data);
+      } catch (err) {
+        document.getElementById('subContent').innerHTML = '<p class="no-sub">Could not load subscription.</p>';
+      }
+    }
+
+    function renderSubContent(sub) {
+      if (!sub || !sub.id) {
+        document.getElementById('subContent').innerHTML = '<p class="no-sub">No active subscription found.<br><small style="color:var(--muted)">Choose a plan below to get started.</small></p>';
+        return;
+      }
+      const fmt = d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+      const daysLeft = Math.max(0, Math.ceil((new Date(sub.endDate) - new Date()) / 86400000));
+      document.getElementById('subContent').innerHTML =
+        '<div class="sub-card">' +
+          row('Plan', sub.plan.name) +
+          row('Tier', '<span class="tier-badge tier-' + sub.currentTier + '-badge">' + sub.currentTier + '</span>') +
+          row('Duration', sub.plan.duration.charAt(0) + sub.plan.duration.slice(1).toLowerCase()) +
+          row('Status', '<span class="status-' + sub.status + '">' + sub.status + '</span>') +
+          row('Started', fmt(sub.startDate)) +
+          row('Expires', fmt(sub.endDate)) +
+          row('Days remaining', daysLeft + ' day' + (daysLeft !== 1 ? 's' : '')) +
+        '</div>';
+    }
+
+    function row(label, value) {
+      return '<div class="sub-row"><span class="sub-label">' + label + '</span><span>' + value + '</span></div>';
+    }
+
+    // ── PLANS ─────────────────────────────────────────────────
+    async function fetchPlans() {
+      try {
+        const res = await fetch(`${API}/api/plans`);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        allPlans = await res.json();
+        buildTierNav();
+        renderPlans(activeTier);
+      } catch (err) { showError(err.message); }
+    }
+
     function buildTierNav() {
-      const nav = document.getElementById('tierNav');
-      const tiers = [...new Set(allPlans.map(p => p.tier))].sort((a,b) => {
-        const order = { SILVER:1, GOLD:2, PLATINUM:3 };
-        return order[a] - order[b];
-      });
-      nav.innerHTML = tiers.map(tier => `
-        <button class="tier-btn ${tier === activeTier ? TIER_META[tier].btnClass : ''}"
-                data-tier="${tier}" onclick="selectTier('${tier}')">
-          ${TIER_META[tier].label}
-        </button>
-      `).join('');
+      const order = { SILVER: 1, GOLD: 2, PLATINUM: 3 };
+      const tiers = [...new Set(allPlans.map(p => p.tier))].sort((a, b) => order[a] - order[b]);
+      document.getElementById('tierNav').innerHTML = tiers.map(tier =>
+        '<button class="tier-btn ' + (tier === activeTier ? TIER_META[tier].btnClass : '') +
+        '" data-tier="' + tier + '" onclick="selectTier(\'' + tier + '\')">' +
+        TIER_META[tier].label + '</button>'
+      ).join('');
     }
 
     function selectTier(tier) {
       activeTier = tier;
       document.querySelectorAll('.tier-btn').forEach(btn => {
-        btn.className = 'tier-btn' + (btn.dataset.tier === tier ? ` ${TIER_META[tier].btnClass}` : '');
+        if (btn.dataset.tier) btn.className = 'tier-btn' + (btn.dataset.tier === tier ? ' ' + TIER_META[tier].btnClass : '');
       });
       renderPlans(tier);
     }
 
-    // --- Render ---
     function renderPlans(tier) {
-      const grid = document.getElementById('plansGrid');
-      const plans = allPlans
-        .filter(p => p.tier === tier)
-        .sort((a,b) => DURATION_ORDER[a.duration] - DURATION_ORDER[b.duration]);
-
-      // Section header
-      const header = document.getElementById('sectionHeader');
-      header.style.display = 'flex';
-      document.getElementById('tierDot').className = `tier-dot dot-${tier}`;
+      const plans = allPlans.filter(p => p.tier === tier).sort((a, b) => DURATION_ORDER[a.duration] - DURATION_ORDER[b.duration]);
+      document.getElementById('sectionHeader').style.display = 'flex';
+      document.getElementById('tierDot').className = 'tier-dot dot-' + tier;
       document.getElementById('tierLabelLarge').textContent = TIER_META[tier].label + ' Plans';
       document.getElementById('tierLabelLarge').style.color = TIER_META[tier].color;
-      document.getElementById('planCount').textContent = `${plans.length} plan${plans.length !== 1 ? 's' : ''} available`;
-
-      grid.className = `plans-grid tier-${tier}`;
+      document.getElementById('planCount').textContent = plans.length + ' plan' + (plans.length !== 1 ? 's' : '') + ' available';
+      const grid = document.getElementById('plansGrid');
+      grid.className = 'plans-grid tier-' + tier;
       grid.innerHTML = plans.map(plan => cardHTML(plan, tier)).join('');
     }
 
     function cardHTML(plan, tier) {
-      const monthly = monthlyPrice(plan);
-      const savings = savingsText(plan);
+      const months       = { MONTHLY: 1, QUARTERLY: 3, YEARLY: 12 };
+      const monthly      = (plan.price / months[plan.duration]).toFixed(0);
+      const periodLabel  = plan.duration === 'MONTHLY' ? '/mo' : plan.duration === 'QUARTERLY' ? '/3 mo' : '/yr';
       const durationLabel = plan.duration.charAt(0) + plan.duration.slice(1).toLowerCase();
-      const periodLabel = plan.duration === 'MONTHLY' ? '/mo' :
-                          plan.duration === 'QUARTERLY' ? '/3 mo' : '/yr';
+      const savings      = savingsText(plan);
+      const btnLabel     = currentUser ? 'Subscribe' : 'Sign in to subscribe';
 
-      return `
-        <div class="plan-card">
-          <div class="duration-badge badge-${plan.duration}">${durationLabel}</div>
-          <div class="plan-name">${plan.name}</div>
-          <div class="plan-tier-label">${TIER_META[tier].label} Membership</div>
-          <div class="price-row">
-            <span class="currency">₹</span>
-            <span class="price-amount">${formatPrice(plan.price)}</span>
-            <span class="price-period">${periodLabel}</span>
-          </div>
-          ${plan.duration !== 'MONTHLY' ? `<div class="monthly-equiv">₹${monthly}/month equivalent</div>` : '<div class="monthly-equiv">&nbsp;</div>'}
-          <div class="divider"></div>
-          ${savings ? `<div class="savings-tag">Save ${savings} vs monthly</div>` : ''}
-        </div>`;
-    }
-
-    function monthlyPrice(plan) {
-      const months = { MONTHLY: 1, QUARTERLY: 3, YEARLY: 12 };
-      return (plan.price / months[plan.duration]).toFixed(0);
+      return '<div class="plan-card">' +
+        '<div class="duration-badge badge-' + plan.duration + '">' + durationLabel + '</div>' +
+        '<div class="plan-name">' + plan.name + '</div>' +
+        '<div class="plan-tier-label">' + TIER_META[tier].label + ' Membership</div>' +
+        '<div class="price-row"><span class="currency">&#8377;</span><span class="price-amount">' + formatPrice(plan.price) + '</span><span class="price-period">' + periodLabel + '</span></div>' +
+        (plan.duration !== 'MONTHLY' ? '<div class="monthly-equiv">&#8377;' + monthly + '/month equivalent</div>' : '<div class="monthly-equiv">&nbsp;</div>') +
+        '<div class="divider"></div>' +
+        (savings ? '<div class="savings-tag">Save ' + savings + ' vs monthly</div>' : '<div style="height:1.5rem"></div>') +
+        '<div class="card-spacer"></div>' +
+        '<button class="subscribe-btn" onclick="handleSubscribe(' + plan.id + ', this)">' + btnLabel + '</button>' +
+      '</div>';
     }
 
     function savingsText(plan) {
       if (plan.duration === 'MONTHLY') return null;
       const months = { QUARTERLY: 3, YEARLY: 12 };
-      const monthlyPlan = allPlans.find(p => p.tier === plan.tier && p.duration === 'MONTHLY');
-      if (!monthlyPlan) return null;
-      const wouldPay = monthlyPlan.price * months[plan.duration];
-      const saved = wouldPay - plan.price;
-      const pct = Math.round((saved / wouldPay) * 100);
-      return `${pct}%`;
+      const base   = allPlans.find(p => p.tier === plan.tier && p.duration === 'MONTHLY');
+      if (!base) return null;
+      const wouldPay = base.price * months[plan.duration];
+      return Math.round(((wouldPay - plan.price) / wouldPay) * 100) + '%';
     }
 
-    function formatPrice(p) {
-      return Number(p).toLocaleString('en-IN');
+    function formatPrice(p) { return Number(p).toLocaleString('en-IN'); }
+
+    // ── SUBSCRIBE ─────────────────────────────────────────────
+    function handleSubscribe(planId, btn) {
+      if (!currentUser) { openModal('login'); return; }
+      doSubscribe(planId, btn);
+    }
+
+    async function doSubscribe(planId, btn) {
+      btn.disabled = true;
+      btn.textContent = 'Subscribing…';
+      try {
+        const res  = await fetch(`${API}/api/subscriptions`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: currentUser.id, planId })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Error ' + res.status);
+        btn.classList.add('done');
+        btn.textContent = '✓ Subscribed';
+        showToast('Subscribed successfully!', 'success');
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = 'Subscribe';
+        showToast(err.message, 'error');
+      }
+    }
+
+    // ── HELPERS ───────────────────────────────────────────────
+    function showToast(msg, type) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast ' + type + ' show';
+      setTimeout(() => { t.className = 'toast ' + type; }, 3000);
     }
 
     function showError(msg) {
-      document.getElementById('plansGrid').innerHTML = `
-        <div class="state-box">
-          <div class="error-icon">⚠</div>
-          <p style="color:var(--text); margin-bottom:0.5rem">Could not load plans</p>
-          <p style="font-size:0.8rem">${msg}</p>
-          <p style="font-size:0.75rem; margin-top:1rem; color:var(--muted)">
-            Make sure your Spring Boot server is running on <code>localhost:8080</code>
-          </p>
-        </div>`;
+      document.getElementById('plansGrid').innerHTML =
+        '<div class="state-box"><div class="error-icon">&#9888;</div>' +
+        '<p style="color:var(--text);margin-bottom:0.5rem">Could not load plans</p>' +
+        '<p style="font-size:0.8rem">' + msg + '</p>' +
+        '<p style="font-size:0.75rem;margin-top:1rem;color:var(--muted)">Make sure Spring Boot is running on localhost:8080</p></div>';
     }
-    window.openModal = function(tab = 'login') {
 
-  switchTab(tab);
-
-      document
-        .getElementById('modalOverlay')
-        .classList
-        .add('open');
-    };
-
-    window.closeModal = function() {
-
-      document
-        .getElementById('modalOverlay')
-        .classList
-        .remove('open');
-    };
-
-    window.closeModalOnBg = function(event) {
-
-      if (event.target.id === 'modalOverlay') {
-        closeModal();
-      }
-    };
-
-    window.switchTab = function(tab) {
-
-      const isLogin = tab === 'login';
-
-      document.getElementById('formLogin').style.display =
-        isLogin ? 'block' : 'none';
-
-      document.getElementById('formRegister').style.display =
-        isLogin ? 'none' : 'block';
-
-      document.getElementById('tabLogin').className =
-        isLogin
-          ? 'tier-btn active-gold'
-          : 'tier-btn';
-
-      document.getElementById('tabRegister').className =
-        !isLogin
-          ? 'tier-btn active-gold'
-          : 'tier-btn';
-
-      document.getElementById('modalTitle').textContent =
-        isLogin
-          ? 'Welcome back'
-          : 'Create account';
-
-      document.getElementById('modalSub').textContent =
-        isLogin
-          ? 'Sign in to continue'
-          : 'Join FirstClub for free';
-
-      document.getElementById('modalError').textContent = '';
-    };
-
-    window.doLogin = function() {
-
-      const email =
-        document.getElementById('loginEmail')
-        .value
-        .trim();
-
-      if (!email) {
-
-        document.getElementById('modalError')
-          .textContent = 'Please enter your email';
-
-        return;
-      }
-
-      closeModal();
-
-      alert('Signed in successfully');
-    };
-
-    window.doRegister = function() {
-
-      const name =
-        document.getElementById('regName')
-        .value
-        .trim();
-
-      const email =
-        document.getElementById('regEmail')
-        .value
-        .trim();
-
-      if (!name || !email) {
-
-        document.getElementById('modalError')
-          .textContent = 'Please complete all fields';
-
-        return;
-      }
-
-      closeModal();
-
-      alert(`Welcome, ${name}!`);
-    };
     fetchPlans();
 </script>
 </body>
