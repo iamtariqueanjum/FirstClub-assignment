@@ -3,6 +3,7 @@ package com.firstclub.membership.services;
 import com.firstclub.membership.dto.UserDto;
 import com.firstclub.membership.entity.User;
 import com.firstclub.membership.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    @Transactional
     public User register(UserDto.RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already registered");

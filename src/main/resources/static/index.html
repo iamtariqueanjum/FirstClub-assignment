@@ -23,42 +23,21 @@
         }
 
         /* TOP BAR */
-        .top-bar {
-          position: fixed; top: 0; right: 0; left: 0;
-          display: flex; justify-content: space-between; align-items: center;
-          padding: 1rem 2rem; z-index: 50;
-          background: rgba(12,12,15,0.8); backdrop-filter: blur(12px);
-          border-bottom: 1px solid var(--border);
-        }
+        .top-bar { position: fixed; top: 0; right: 0; left: 0; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; z-index: 50; background: rgba(12,12,15,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
         .top-bar-logo { font-family: 'Playfair Display', serif; font-size: 0.9rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); }
         .top-bar-right { display: flex; gap: 0.75rem; align-items: center; }
-        .auth-btn {
-          padding: 0.55rem 1rem; border-radius: 999px; border: 1px solid var(--border);
-          background: rgba(19,19,26,0.7); backdrop-filter: blur(10px);
-          color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500;
-          cursor: pointer; transition: all 0.2s;
-        }
+        .auth-btn { padding: 0.55rem 1rem; border-radius: 999px; border: 1px solid var(--border); background: rgba(19,19,26,0.7); backdrop-filter: blur(10px); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
         .auth-btn:hover { border-color: #333; transform: translateY(-1px); }
         .auth-btn-primary { background: var(--gold-glow); border-color: var(--gold); color: var(--gold); }
         .auth-btn-ghost { background: transparent; border-color: var(--border); color: var(--muted); font-size: 0.78rem; }
-        .nav-avatar {
-          width: 30px; height: 30px; border-radius: 50%;
-          background: var(--gold-glow); border: 1px solid var(--gold);
-          display: flex; align-items: center; justify-content: center;
-          font-size: 0.72rem; color: var(--gold); font-weight: 700;
-        }
+        .nav-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--gold-glow); border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 0.72rem; color: var(--gold); font-weight: 700; }
         .nav-username { font-size: 0.85rem; color: var(--text); }
 
         /* MAIN */
         .wrapper { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
         header { padding: 6rem 0 2rem; text-align: center; animation: fadeDown 0.6s ease both; }
         .logo { font-family: 'Playfair Display', serif; font-size: 1rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
-        h1 {
-          font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.5rem);
-          font-weight: 700; line-height: 1.15; margin-bottom: 1rem;
-          background: linear-gradient(135deg, #f0eff4 40%, #a8b2c1);
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
+        h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; line-height: 1.15; margin-bottom: 1rem; background: linear-gradient(135deg, #f0eff4 40%, #a8b2c1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .subtitle { color: var(--muted); font-size: 1rem; font-weight: 300; letter-spacing: 0.02em; }
 
         /* TIER NAV */
@@ -81,12 +60,7 @@
         @media (max-width: 768px) { .plans-grid { grid-template-columns: 1fr; } }
 
         /* PLAN CARD */
-        .plan-card {
-          background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-          padding: 2rem 1.75rem; position: relative; overflow: hidden;
-          transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-          animation: fadeUp 0.5s ease both; display: flex; flex-direction: column;
-        }
+        .plan-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem 1.75rem; position: relative; overflow: hidden; transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; animation: fadeUp 0.5s ease both; display: flex; flex-direction: column; }
         .plan-card:nth-child(1) { animation-delay: 0.05s; } .plan-card:nth-child(2) { animation-delay: 0.1s; } .plan-card:nth-child(3) { animation-delay: 0.15s; }
         .plan-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
         .plan-card:hover { transform: translateY(-4px); }
@@ -113,15 +87,8 @@
         .tier-SILVER .savings-tag { background: var(--silver-glow); color: var(--silver); }
         .tier-GOLD   .savings-tag { background: var(--gold-glow);   color: var(--gold); }
         .tier-PLATINUM .savings-tag { background: var(--platinum-glow); color: var(--platinum); }
-
-        /* SUBSCRIBE BUTTON */
         .card-spacer { flex: 1; min-height: 0.5rem; }
-        .subscribe-btn {
-          width: 100%; margin-top: 1rem; padding: 0.65rem 1rem; border-radius: 10px;
-          border: 1px solid var(--border); background: transparent; color: var(--text);
-          font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500;
-          cursor: pointer; transition: all 0.2s;
-        }
+        .subscribe-btn { width: 100%; margin-top: 1rem; padding: 0.65rem 1rem; border-radius: 10px; border: 1px solid var(--border); background: transparent; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
         .subscribe-btn:hover { background: rgba(255,255,255,0.04); border-color: #444; }
         .subscribe-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .subscribe-btn.done { color: #6fcf6f !important; border-color: #2d5a2d !important; cursor: default; }
@@ -134,12 +101,8 @@
         .spinner { width: 32px; height: 32px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 1rem; }
         .error-icon { font-size: 2rem; margin-bottom: 0.75rem; }
 
-        /* AUTH MODAL */
-        .modal-overlay {
-          position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-          background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
-          opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 100;
-        }
+        /* MODALS */
+        .modal-overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 100; }
         .modal-overlay.open { opacity: 1; pointer-events: auto; }
         .auth-modal { width: 100%; max-width: 420px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 2rem; animation: fadeUp 0.25s ease; }
         .modal-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 0.5rem; }
@@ -154,7 +117,7 @@
         .modal-error { margin-top: 0.75rem; color: #d86f6f; font-size: 0.82rem; min-height: 1rem; }
 
         /* SUBSCRIPTION MODAL */
-        .sub-modal { width: 100%; max-width: 460px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 2rem; animation: fadeUp 0.25s ease; }
+        .sub-modal { width: 100%; max-width: 480px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 2rem; animation: fadeUp 0.25s ease; max-height: 90vh; overflow-y: auto; }
         .sub-modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
         .sub-modal-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; }
         .sub-modal-sub { color: var(--muted); font-size: 0.82rem; margin-top: 0.25rem; }
@@ -170,8 +133,31 @@
         .status-CANCELLED { color: #cf6f6f; }
         .status-EXPIRED   { color: var(--muted); }
         .no-sub { color: var(--muted); font-size: 0.9rem; text-align: center; padding: 2rem 0; }
-        .close-btn { background: transparent; border: none; color: var(--muted); font-size: 1.2rem; cursor: pointer; padding: 0.25rem; line-height: 1; }
+        .close-btn { background: transparent; border: none; color: var(--muted); font-size: 1.2rem; cursor: pointer; padding: 0.25rem; line-height: 1; flex-shrink: 0; }
         .close-btn:hover { color: var(--text); }
+
+        /* TIER CHANGE */
+        .sub-section-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin: 1.25rem 0 0.6rem; }
+        .tier-action-btns { display: flex; gap: 0.5rem; }
+        .tier-action-btn { flex: 1; padding: 0.6rem 0.5rem; border-radius: 10px; border: 1px solid var(--border); background: transparent; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--muted); text-align: center; }
+        .tier-action-btn.is-current { border-color: var(--gold); color: var(--gold); background: var(--gold-glow); cursor: default; }
+        .tier-action-btn.is-upgrade { color: #6fcf6f; border-color: rgba(111,207,111,0.3); }
+        .tier-action-btn.is-upgrade:hover { background: rgba(111,207,111,0.08); border-color: #6fcf6f; }
+        .tier-action-btn.is-downgrade { color: #cf8f6f; border-color: rgba(207,143,111,0.3); }
+        .tier-action-btn.is-downgrade:hover { background: rgba(207,143,111,0.08); border-color: #cf8f6f; }
+        .tier-action-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+        .tier-direction-label { font-size: 0.68rem; display: block; margin-top: 0.2rem; opacity: 0.8; }
+
+        /* CANCEL */
+        .cancel-sub-btn { width: 100%; margin-top: 1rem; padding: 0.65rem; border-radius: 10px; border: 1px solid rgba(207,111,111,0.3); background: transparent; color: #cf6f6f; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+        .cancel-sub-btn:hover { background: rgba(207,111,111,0.08); border-color: #cf6f6f; }
+        .cancel-confirm { display: none; margin-top: 0.75rem; padding: 1rem; background: rgba(42,15,15,0.8); border: 1px solid rgba(207,111,111,0.3); border-radius: 10px; }
+        .cancel-confirm p { font-size: 0.82rem; color: #cf9f9f; margin-bottom: 0.75rem; line-height: 1.5; }
+        .cancel-confirm-btns { display: flex; gap: 0.5rem; }
+        .btn-confirm-yes { flex: 1; padding: 0.55rem; border-radius: 8px; border: 1px solid rgba(207,111,111,0.4); background: rgba(207,111,111,0.12); color: #cf6f6f; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .btn-confirm-yes:hover { background: rgba(207,111,111,0.22); }
+        .btn-confirm-no  { flex: 1; padding: 0.55rem; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; cursor: pointer; transition: all 0.2s; }
+        .btn-confirm-no:hover { color: var(--text); }
 
         /* TOAST */
         .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(10px); padding: 0.8rem 1.4rem; border-radius: 12px; font-size: 0.85rem; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; z-index: 200; white-space: nowrap; }
@@ -196,7 +182,7 @@
 </div>
 
 <!-- AUTH MODAL -->
-<div class="modal-overlay" id="authOverlay" onclick="closeModalOnBg(event, 'authOverlay')">
+<div class="modal-overlay" id="authOverlay" onclick="closeModalOnBg(event,'authOverlay')">
     <div class="auth-modal">
         <div class="logo">FirstClub</div>
         <h2 id="modalTitle" class="modal-title">Welcome back</h2>
@@ -205,24 +191,13 @@
             <button class="tier-btn active-gold" id="tabLogin" onclick="switchTab('login')">Sign in</button>
             <button class="tier-btn" id="tabRegister" onclick="switchTab('register')">Create account</button>
         </div>
-        <!-- LOGIN -->
         <div id="formLogin">
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="loginEmail" placeholder="you@example.com" onkeydown="if(event.key==='Enter') doLogin()" />
-            </div>
+            <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="you@example.com" onkeydown="if(event.key==='Enter') doLogin()" /></div>
             <button class="modal-submit-btn" onclick="doLogin()">Sign in</button>
         </div>
-        <!-- REGISTER -->
         <div id="formRegister" style="display:none">
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" id="regName" placeholder="Your name" />
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="regEmail" placeholder="you@example.com" onkeydown="if(event.key==='Enter') doRegister()" />
-            </div>
+            <div class="form-group"><label>Name</label><input type="text" id="regName" placeholder="Your name" /></div>
+            <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="you@example.com" onkeydown="if(event.key==='Enter') doRegister()" /></div>
             <button class="modal-submit-btn" onclick="doRegister()">Create account</button>
         </div>
         <p id="modalError" class="modal-error"></p>
@@ -230,7 +205,7 @@
 </div>
 
 <!-- SUBSCRIPTION MODAL -->
-<div class="modal-overlay" id="subOverlay" onclick="closeModalOnBg(event, 'subOverlay')">
+<div class="modal-overlay" id="subOverlay" onclick="closeModalOnBg(event,'subOverlay')">
     <div class="sub-modal">
         <div class="sub-modal-header">
             <div>
@@ -240,7 +215,7 @@
             <button class="close-btn" onclick="closeSubModal()">&#x2715;</button>
         </div>
         <div id="subContent">
-            <div class="state-box"><div class="spinner"></div></div>
+            <div style="text-align:center;padding:2rem"><div class="spinner" style="margin:0 auto"></div></div>
         </div>
     </div>
 </div>
@@ -255,15 +230,12 @@
         <h1>Choose Your Membership</h1>
         <p class="subtitle">Unlock exclusive benefits with every plan</p>
     </header>
-
     <nav class="tier-nav" id="tierNav"></nav>
-
     <div id="sectionHeader" class="section-header" style="display:none">
         <span class="tier-dot" id="tierDot"></span>
         <span class="tier-label-large" id="tierLabelLarge"></span>
         <span class="plan-count" id="planCount"></span>
     </div>
-
     <div class="plans-grid" id="plansGrid">
         <div class="state-box"><div class="spinner"></div><p>Loading plans…</p></div>
     </div>
@@ -271,16 +243,16 @@
 
 <script>
     const API = 'http://localhost:8080';
+    const TIERS = ['SILVER','GOLD','PLATINUM'];
+    const TIER_LEVEL = { SILVER:1, GOLD:2, PLATINUM:3 };
     const TIER_META = {
-      SILVER:   { color: 'var(--silver)',   label: 'Silver',   btnClass: 'active-silver' },
-      GOLD:     { color: 'var(--gold)',     label: 'Gold',     btnClass: 'active-gold' },
-      PLATINUM: { color: 'var(--platinum)', label: 'Platinum', btnClass: 'active-platinum' }
+      SILVER:   { color:'var(--silver)',   label:'Silver',   btnClass:'active-silver' },
+      GOLD:     { color:'var(--gold)',     label:'Gold',     btnClass:'active-gold' },
+      PLATINUM: { color:'var(--platinum)', label:'Platinum', btnClass:'active-platinum' }
     };
-    const DURATION_ORDER = { MONTHLY: 1, QUARTERLY: 2, YEARLY: 3 };
+    const DURATION_ORDER = { MONTHLY:1, QUARTERLY:2, YEARLY:3 };
 
-    let allPlans   = [];
-    let activeTier = 'GOLD';
-    let currentUser = null;
+    let allPlans = [], activeTier = 'GOLD', currentUser = null;
 
     // ── AUTH ──────────────────────────────────────────────────
     function openModal(tab) {
@@ -288,26 +260,17 @@
       document.getElementById('modalError').textContent = '';
       document.getElementById('authOverlay').classList.add('open');
     }
-
-    function closeAuthModal() {
-      document.getElementById('authOverlay').classList.remove('open');
-    }
-
-    function closeSubModal() {
-      document.getElementById('subOverlay').classList.remove('open');
-    }
-
-    function closeModalOnBg(e, id) {
-      if (e.target.id === id) document.getElementById(id).classList.remove('open');
-    }
+    function closeAuthModal() { document.getElementById('authOverlay').classList.remove('open'); }
+    function closeSubModal()  { document.getElementById('subOverlay').classList.remove('open'); }
+    function closeModalOnBg(e, id) { if (e.target.id === id) document.getElementById(id).classList.remove('open'); }
 
     function switchTab(tab) {
       const isLogin = tab === 'login';
       document.getElementById('formLogin').style.display    = isLogin ? 'block' : 'none';
-      document.getElementById('formRegister').style.display = isLogin ? 'none' : 'block';
-      document.getElementById('tabLogin').className    = 'tier-btn' + (isLogin ? ' active-gold' : '');
+      document.getElementById('formRegister').style.display = isLogin ? 'none'  : 'block';
+      document.getElementById('tabLogin').className    = 'tier-btn' + (isLogin  ? ' active-gold' : '');
       document.getElementById('tabRegister').className = 'tier-btn' + (!isLogin ? ' active-gold' : '');
-      document.getElementById('modalTitle').textContent = isLogin ? 'Welcome back' : 'Create account';
+      document.getElementById('modalTitle').textContent = isLogin ? 'Welcome back'        : 'Create account';
       document.getElementById('modalSub').textContent   = isLogin ? 'Sign in to continue' : 'Join FirstClub for free';
       document.getElementById('modalError').textContent = '';
     }
@@ -316,14 +279,11 @@
       const email = document.getElementById('loginEmail').value.trim();
       if (!email) { setModalError('Please enter your email'); return; }
       try {
-        const res  = await fetch(`${API}/api/users/login`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
-        });
+        const res  = await fetch(`${API}/api/users/login`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ email }) });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || 'Login failed');
         onAuthSuccess(data);
-      } catch (err) { setModalError(err.message); }
+      } catch(err) { setModalError(err.message); }
     }
 
     async function doRegister() {
@@ -331,18 +291,13 @@
       const email = document.getElementById('regEmail').value.trim();
       if (!name || !email) { setModalError('Please fill all fields'); return; }
       try {
-        const res  = await fetch(`${API}/api/users/register`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email })
-        });
+        const res  = await fetch(`${API}/api/users/register`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ name, email }) });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || 'Registration failed');
-        // After register → switch to login with prefilled email
         document.getElementById('loginEmail').value = email;
         switchTab('login');
-        setModalError('');
         showToast('Account created! Please sign in.', 'success');
-      } catch (err) { setModalError(err.message); }
+      } catch(err) { setModalError(err.message); }
     }
 
     function onAuthSuccess(user) {
@@ -360,14 +315,12 @@
       showToast('Signed out', 'success');
     }
 
-    function setModalError(msg) {
-      document.getElementById('modalError').textContent = msg;
-    }
+    function setModalError(msg) { document.getElementById('modalError').textContent = msg; }
 
     function renderTopBar() {
       const el = document.getElementById('topBarRight');
       if (currentUser) {
-        const initials = currentUser.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+        const initials = currentUser.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
         el.innerHTML =
           '<div class="nav-avatar">' + initials + '</div>' +
           '<span class="nav-username">Welcome, ' + currentUser.name + '</span>' +
@@ -381,40 +334,104 @@
     }
 
     // ── SUBSCRIPTION MODAL ────────────────────────────────────
+    let currentSub = null;
+
     async function openSubModal() {
       document.getElementById('subModalSub').textContent = currentUser.email;
-      document.getElementById('subContent').innerHTML = '<div class="state-box"><div class="spinner"></div></div>';
+      document.getElementById('subContent').innerHTML = '<div style="text-align:center;padding:2rem"><div class="spinner" style="margin:0 auto"></div></div>';
       document.getElementById('subOverlay').classList.add('open');
       try {
         const res  = await fetch(`${API}/api/subscriptions/user/${currentUser.id}`);
-        const data = await res.json();
-        renderSubContent(data);
-      } catch (err) {
+        currentSub = await res.json();
+        renderSubContent(currentSub);
+      } catch(err) {
         document.getElementById('subContent').innerHTML = '<p class="no-sub">Could not load subscription.</p>';
       }
     }
 
     function renderSubContent(sub) {
       if (!sub || !sub.id) {
-        document.getElementById('subContent').innerHTML = '<p class="no-sub">No active subscription found.<br><small style="color:var(--muted)">Choose a plan below to get started.</small></p>';
+        document.getElementById('subContent').innerHTML =
+          '<p class="no-sub">No active subscription.<br><small style="color:var(--muted)">Choose a plan below to get started.</small></p>';
         return;
       }
-      const fmt = d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+      const fmt      = d => new Date(d).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
       const daysLeft = Math.max(0, Math.ceil((new Date(sub.endDate) - new Date()) / 86400000));
+
+      // Tier action buttons
+      const tierBtns = TIERS.map(t => {
+        const level      = TIER_LEVEL[t];
+        const curLevel   = TIER_LEVEL[sub.currentTier];
+        const isCurrent  = t === sub.currentTier;
+        const isUpgrade  = level > curLevel;
+        const isDowngrade= level < curLevel;
+        let cls = 'tier-action-btn';
+        let dirLabel = '';
+        if (isCurrent)  { cls += ' is-current'; dirLabel = 'Current'; }
+        else if (isUpgrade)   { cls += ' is-upgrade';   dirLabel = '&#8593; Upgrade'; }
+        else if (isDowngrade) { cls += ' is-downgrade'; dirLabel = '&#8595; Downgrade'; }
+        const disabled = isCurrent ? 'disabled' : '';
+        return '<button class="' + cls + '" ' + disabled + ' onclick="changeTier(\'' + t + '\')">' +
+                 TIER_META[t].label +
+                 '<span class="tier-direction-label">' + dirLabel + '</span>' +
+               '</button>';
+      }).join('');
+
       document.getElementById('subContent').innerHTML =
         '<div class="sub-card">' +
-          row('Plan', sub.plan.name) +
-          row('Tier', '<span class="tier-badge tier-' + sub.currentTier + '-badge">' + sub.currentTier + '</span>') +
-          row('Duration', sub.plan.duration.charAt(0) + sub.plan.duration.slice(1).toLowerCase()) +
-          row('Status', '<span class="status-' + sub.status + '">' + sub.status + '</span>') +
-          row('Started', fmt(sub.startDate)) +
-          row('Expires', fmt(sub.endDate)) +
+          row('Plan',          sub.plan.name) +
+          row('Tier',          '<span class="tier-badge tier-' + sub.currentTier + '-badge">' + sub.currentTier + '</span>') +
+          row('Duration',      sub.plan.duration.charAt(0) + sub.plan.duration.slice(1).toLowerCase()) +
+          row('Status',        '<span class="status-' + sub.status + '">' + sub.status + '</span>') +
+          row('Started',       fmt(sub.startDate)) +
+          row('Expires',       fmt(sub.endDate)) +
           row('Days remaining', daysLeft + ' day' + (daysLeft !== 1 ? 's' : '')) +
+        '</div>' +
+
+        '<div class="sub-section-label">Change Tier</div>' +
+        '<div class="tier-action-btns">' + tierBtns + '</div>' +
+
+        '<button class="cancel-sub-btn" onclick="toggleCancelConfirm()">Cancel Subscription</button>' +
+        '<div class="cancel-confirm" id="cancelConfirm">' +
+          '<p>Are you sure? Your subscription will be cancelled immediately and you will lose access to all benefits.</p>' +
+          '<div class="cancel-confirm-btns">' +
+            '<button class="btn-confirm-yes" onclick="doCancel()">Yes, cancel</button>' +
+            '<button class="btn-confirm-no"  onclick="toggleCancelConfirm()">Keep it</button>' +
+          '</div>' +
         '</div>';
     }
 
     function row(label, value) {
       return '<div class="sub-row"><span class="sub-label">' + label + '</span><span>' + value + '</span></div>';
+    }
+
+    function toggleCancelConfirm() {
+      const el = document.getElementById('cancelConfirm');
+      el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    }
+
+    async function changeTier(newTier) {
+      try {
+        const res  = await fetch(`${API}/api/subscriptions/user/${currentUser.id}/tier?newTier=${newTier}`, { method:'PATCH' });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Failed to change tier');
+        currentSub = data;
+        renderSubContent(data);
+        const direction = TIER_LEVEL[newTier] > TIER_LEVEL[currentSub.currentTier] ? 'Upgraded' : 'Downgraded';
+        showToast(direction + ' to ' + TIER_META[newTier].label + '!', 'success');
+      } catch(err) { showToast(err.message, 'error'); }
+    }
+
+    async function doCancel() {
+      try {
+        const res  = await fetch(`${API}/api/subscriptions/user/${currentUser.id}`, { method:'DELETE' });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Failed to cancel');
+        closeSubModal();
+        renderPlans(activeTier);
+        showToast('Subscription cancelled.', 'success');
+      } catch(err) { showToast(err.message, 'error'); }
     }
 
     // ── PLANS ─────────────────────────────────────────────────
@@ -425,53 +442,51 @@
         allPlans = await res.json();
         buildTierNav();
         renderPlans(activeTier);
-      } catch (err) { showError(err.message); }
+      } catch(err) { showError(err.message); }
     }
 
     function buildTierNav() {
-      const order = { SILVER: 1, GOLD: 2, PLATINUM: 3 };
-      const tiers = [...new Set(allPlans.map(p => p.tier))].sort((a, b) => order[a] - order[b]);
+      const order = { SILVER:1, GOLD:2, PLATINUM:3 };
+      const tiers = [...new Set(allPlans.map(p => p.tier))].sort((a,b) => order[a]-order[b]);
       document.getElementById('tierNav').innerHTML = tiers.map(tier =>
-        '<button class="tier-btn ' + (tier === activeTier ? TIER_META[tier].btnClass : '') +
-        '" data-tier="' + tier + '" onclick="selectTier(\'' + tier + '\')">' +
-        TIER_META[tier].label + '</button>'
+        '<button class="tier-btn ' + (tier===activeTier ? TIER_META[tier].btnClass : '') +
+        '" data-tier="' + tier + '" onclick="selectTier(\'' + tier + '\')">' + TIER_META[tier].label + '</button>'
       ).join('');
     }
 
     function selectTier(tier) {
       activeTier = tier;
       document.querySelectorAll('.tier-btn').forEach(btn => {
-        if (btn.dataset.tier) btn.className = 'tier-btn' + (btn.dataset.tier === tier ? ' ' + TIER_META[tier].btnClass : '');
+        if (btn.dataset.tier) btn.className = 'tier-btn' + (btn.dataset.tier===tier ? ' '+TIER_META[tier].btnClass : '');
       });
       renderPlans(tier);
     }
 
     function renderPlans(tier) {
-      const plans = allPlans.filter(p => p.tier === tier).sort((a, b) => DURATION_ORDER[a.duration] - DURATION_ORDER[b.duration]);
+      const plans = allPlans.filter(p => p.tier===tier).sort((a,b) => DURATION_ORDER[a.duration]-DURATION_ORDER[b.duration]);
       document.getElementById('sectionHeader').style.display = 'flex';
       document.getElementById('tierDot').className = 'tier-dot dot-' + tier;
       document.getElementById('tierLabelLarge').textContent = TIER_META[tier].label + ' Plans';
       document.getElementById('tierLabelLarge').style.color = TIER_META[tier].color;
-      document.getElementById('planCount').textContent = plans.length + ' plan' + (plans.length !== 1 ? 's' : '') + ' available';
+      document.getElementById('planCount').textContent = plans.length + ' plan' + (plans.length!==1?'s':'') + ' available';
       const grid = document.getElementById('plansGrid');
       grid.className = 'plans-grid tier-' + tier;
       grid.innerHTML = plans.map(plan => cardHTML(plan, tier)).join('');
     }
 
     function cardHTML(plan, tier) {
-      const months       = { MONTHLY: 1, QUARTERLY: 3, YEARLY: 12 };
-      const monthly      = (plan.price / months[plan.duration]).toFixed(0);
-      const periodLabel  = plan.duration === 'MONTHLY' ? '/mo' : plan.duration === 'QUARTERLY' ? '/3 mo' : '/yr';
+      const months = { MONTHLY:1, QUARTERLY:3, YEARLY:12 };
+      const monthly = (plan.price / months[plan.duration]).toFixed(0);
+      const periodLabel = plan.duration==='MONTHLY' ? '/mo' : plan.duration==='QUARTERLY' ? '/3 mo' : '/yr';
       const durationLabel = plan.duration.charAt(0) + plan.duration.slice(1).toLowerCase();
-      const savings      = savingsText(plan);
-      const btnLabel     = currentUser ? 'Subscribe' : 'Sign in to subscribe';
-
+      const savings = savingsText(plan);
+      const btnLabel = currentUser ? 'Subscribe' : 'Sign in to subscribe';
       return '<div class="plan-card">' +
         '<div class="duration-badge badge-' + plan.duration + '">' + durationLabel + '</div>' +
         '<div class="plan-name">' + plan.name + '</div>' +
         '<div class="plan-tier-label">' + TIER_META[tier].label + ' Membership</div>' +
         '<div class="price-row"><span class="currency">&#8377;</span><span class="price-amount">' + formatPrice(plan.price) + '</span><span class="price-period">' + periodLabel + '</span></div>' +
-        (plan.duration !== 'MONTHLY' ? '<div class="monthly-equiv">&#8377;' + monthly + '/month equivalent</div>' : '<div class="monthly-equiv">&nbsp;</div>') +
+        (plan.duration!=='MONTHLY' ? '<div class="monthly-equiv">&#8377;' + monthly + '/month equivalent</div>' : '<div class="monthly-equiv">&nbsp;</div>') +
         '<div class="divider"></div>' +
         (savings ? '<div class="savings-tag">Save ' + savings + ' vs monthly</div>' : '<div style="height:1.5rem"></div>') +
         '<div class="card-spacer"></div>' +
@@ -480,12 +495,12 @@
     }
 
     function savingsText(plan) {
-      if (plan.duration === 'MONTHLY') return null;
-      const months = { QUARTERLY: 3, YEARLY: 12 };
-      const base   = allPlans.find(p => p.tier === plan.tier && p.duration === 'MONTHLY');
+      if (plan.duration==='MONTHLY') return null;
+      const months = { QUARTERLY:3, YEARLY:12 };
+      const base = allPlans.find(p => p.tier===plan.tier && p.duration==='MONTHLY');
       if (!base) return null;
       const wouldPay = base.price * months[plan.duration];
-      return Math.round(((wouldPay - plan.price) / wouldPay) * 100) + '%';
+      return Math.round(((wouldPay-plan.price)/wouldPay)*100) + '%';
     }
 
     function formatPrice(p) { return Number(p).toLocaleString('en-IN'); }
@@ -500,16 +515,13 @@
       btn.disabled = true;
       btn.textContent = 'Subscribing…';
       try {
-        const res  = await fetch(`${API}/api/subscriptions`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId: currentUser.id, planId })
-        });
+        const res  = await fetch(`${API}/api/subscriptions`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ userId:currentUser.id, planId }) });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || 'Error ' + res.status);
         btn.classList.add('done');
-        btn.textContent = '✓ Subscribed';
+        btn.textContent = '&#10003; Subscribed';
         showToast('Subscribed successfully!', 'success');
-      } catch (err) {
+      } catch(err) {
         btn.disabled = false;
         btn.textContent = 'Subscribe';
         showToast(err.message, 'error');
