@@ -159,6 +159,24 @@
         .btn-confirm-no  { flex: 1; padding: 0.55rem; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; cursor: pointer; transition: all 0.2s; }
         .btn-confirm-no:hover { color: var(--text); }
 
+        /* ORDER MODAL */
+        .order-modal { width: 100%; max-width: 400px; background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 2rem; animation: fadeUp 0.25s ease; }
+        .order-modal-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.35rem; }
+        .order-modal-sub { color: var(--muted); font-size: 0.82rem; margin-bottom: 1.5rem; }
+        .order-presets { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+        .order-preset-btn { padding: 0.4rem 0.85rem; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+        .order-preset-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-glow); }
+        .order-history { margin-top: 1.25rem; max-height: 160px; overflow-y: auto; }
+        .order-history-title { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem; }
+        .order-item { display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0; border-bottom: 1px solid var(--border); font-size: 0.82rem; }
+        .order-item:last-child { border-bottom: none; }
+        .order-item-value { color: #6fcf6f; font-weight: 500; }
+        .order-item-time { color: var(--muted); font-size: 0.75rem; }
+        .order-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
+        .order-stat { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 0.85rem 1rem; }
+        .order-stat-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.3rem; }
+        .order-stat-value { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; }
+
         /* TOAST */
         .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(10px); padding: 0.8rem 1.4rem; border-radius: 12px; font-size: 0.85rem; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; z-index: 200; white-space: nowrap; }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -220,6 +238,53 @@
     </div>
 </div>
 
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="orderOverlay" onclick="closeModalOnBg(event,'orderOverlay')">
+    <div class="order-modal">
+        <div class="sub-modal-header">
+            <div>
+                <div class="order-modal-title">Place an Order</div>
+                <div class="order-modal-sub">Orders count toward tier promotion</div>
+            </div>
+            <button class="close-btn" onclick="closeOrderModal()">&#x2715;</button>
+        </div>
+
+        <!-- Stats -->
+        <div class="order-stats">
+            <div class="order-stat">
+                <div class="order-stat-label">Total Orders</div>
+                <div class="order-stat-value" id="statOrderCount">—</div>
+            </div>
+            <div class="order-stat">
+                <div class="order-stat-label">Monthly Spend</div>
+                <div class="order-stat-value" id="statMonthlyValue">—</div>
+            </div>
+        </div>
+
+        <!-- Amount input -->
+        <div class="form-group">
+            <label>Order value</label>
+            <input type="number" id="orderValue" placeholder="e.g. 2500" min="1" onkeydown="if(event.key==='Enter') placeOrder()" />
+        </div>
+
+        <!-- Quick presets -->
+        <div class="order-presets">
+            <button class="order-preset-btn" onclick="setOrderValue(500)">&#8377;500</button>
+            <button class="order-preset-btn" onclick="setOrderValue(1500)">&#8377;1,500</button>
+            <button class="order-preset-btn" onclick="setOrderValue(3000)">&#8377;3,000</button>
+            <button class="order-preset-btn" onclick="setOrderValue(6000)">&#8377;6,000</button>
+        </div>
+
+        <button class="modal-submit-btn" onclick="placeOrder()">Place Order</button>
+
+        <!-- Order history (local session) -->
+        <div class="order-history" id="orderHistory" style="display:none">
+            <div class="order-history-title">This session</div>
+            <div id="orderHistoryList"></div>
+        </div>
+    </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
@@ -253,6 +318,7 @@
     const DURATION_ORDER = { MONTHLY:1, QUARTERLY:2, YEARLY:3 };
 
     let allPlans = [], activeTier = 'GOLD', currentUser = null;
+    let sessionOrders = []; // local session order history
 
     // ── AUTH ──────────────────────────────────────────────────
     function openModal(tab) {
@@ -260,8 +326,9 @@
       document.getElementById('modalError').textContent = '';
       document.getElementById('authOverlay').classList.add('open');
     }
-    function closeAuthModal() { document.getElementById('authOverlay').classList.remove('open'); }
-    function closeSubModal()  { document.getElementById('subOverlay').classList.remove('open'); }
+    function closeAuthModal()  { document.getElementById('authOverlay').classList.remove('open'); }
+    function closeSubModal()   { document.getElementById('subOverlay').classList.remove('open'); }
+    function closeOrderModal() { document.getElementById('orderOverlay').classList.remove('open'); }
     function closeModalOnBg(e, id) { if (e.target.id === id) document.getElementById(id).classList.remove('open'); }
 
     function switchTab(tab) {
@@ -310,6 +377,7 @@
 
     function logout() {
       currentUser = null;
+      sessionOrders = [];
       renderTopBar();
       renderPlans(activeTier);
       showToast('Signed out', 'success');
@@ -324,6 +392,7 @@
         el.innerHTML =
           '<div class="nav-avatar">' + initials + '</div>' +
           '<span class="nav-username">Welcome, ' + currentUser.name + '</span>' +
+          '<button class="auth-btn" onclick="openOrderModal()">Place Order</button>' +
           '<button class="auth-btn" onclick="openSubModal()">My Subscription</button>' +
           '<button class="auth-btn auth-btn-ghost" onclick="logout()">Sign out</button>';
       } else {
@@ -331,6 +400,84 @@
           '<button class="auth-btn" onclick="openModal(\'login\')">Sign in</button>' +
           '<button class="auth-btn auth-btn-primary" onclick="openModal(\'register\')">Join for free</button>';
       }
+    }
+
+    // ── ORDER MODAL ───────────────────────────────────────────
+    async function openOrderModal() {
+      document.getElementById('orderValue').value = '';
+      document.getElementById('orderOverlay').classList.add('open');
+      await refreshOrderStats();
+      renderOrderHistory();
+    }
+
+    async function refreshOrderStats() {
+      try {
+        const res  = await fetch(`${API}/api/users/${currentUser.id}`);
+        const data = await res.json();
+        document.getElementById('statOrderCount').textContent  = data.totalOrderCount;
+        document.getElementById('statMonthlyValue').textContent = '&#8377;' + Number(data.monthlyOrderValue).toLocaleString('en-IN');
+        // update local user object too
+        currentUser.totalOrderCount  = data.totalOrderCount;
+        currentUser.monthlyOrderValue = data.monthlyOrderValue;
+      } catch(e) {
+        document.getElementById('statOrderCount').textContent  = '—';
+        document.getElementById('statMonthlyValue').textContent = '—';
+      }
+    }
+
+    function setOrderValue(val) {
+      document.getElementById('orderValue').value = val;
+      document.getElementById('orderValue').focus();
+    }
+
+    async function placeOrder() {
+      const val = parseFloat(document.getElementById('orderValue').value);
+      if (!val || val <= 0) { showToast('Enter a valid order value', 'error'); return; }
+
+      try {
+        const res  = await fetch(`${API}/api/users/${currentUser.id}/order?orderValue=${val}`, { method:'POST' });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Order failed');
+
+        // Add to session history
+        sessionOrders.unshift({ value: val, time: new Date() });
+        document.getElementById('orderValue').value = '';
+
+        // Refresh stats
+        await refreshOrderStats();
+        renderOrderHistory();
+
+        showToast('Order of &#8377;' + Number(val).toLocaleString('en-IN') + ' placed!', 'success');
+
+        // Check if tier changed by re-evaluating (trigger scheduler manually if endpoint exists)
+        checkTierPromotion(data);
+
+      } catch(err) { showToast(err.message, 'error'); }
+    }
+
+    function checkTierPromotion(updatedUser) {
+      // After an order, fetch the subscription to see if tier changed
+      fetch(`${API}/api/subscriptions/user/${currentUser.id}`)
+        .then(r => r.json())
+        .then(sub => {
+          if (sub && sub.currentTier && currentUser.lastKnownTier && sub.currentTier !== currentUser.lastKnownTier) {
+            showToast('Tier upgraded to ' + sub.currentTier + '!', 'success');
+          }
+          if (sub) currentUser.lastKnownTier = sub.currentTier;
+        }).catch(() => {});
+    }
+
+    function renderOrderHistory() {
+      const container = document.getElementById('orderHistory');
+      const list      = document.getElementById('orderHistoryList');
+      if (sessionOrders.length === 0) { container.style.display = 'none'; return; }
+      container.style.display = 'block';
+      list.innerHTML = sessionOrders.slice(0, 8).map(o =>
+        '<div class="order-item">' +
+          '<span class="order-item-value">&#8377;' + Number(o.value).toLocaleString('en-IN') + '</span>' +
+          '<span class="order-item-time">' + o.time.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' }) + '</span>' +
+        '</div>'
+      ).join('');
     }
 
     // ── SUBSCRIPTION MODAL ────────────────────────────────────
@@ -359,45 +506,38 @@
       const fmt      = d => new Date(d).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
       const daysLeft = Math.max(0, Math.ceil((new Date(sub.endDate) - new Date()) / 86400000));
 
-      // Tier action buttons
       const tierBtns = TIERS.map(t => {
-        const level      = TIER_LEVEL[t];
-        const curLevel   = TIER_LEVEL[sub.currentTier];
-        const isCurrent  = t === sub.currentTier;
-        const isUpgrade  = level > curLevel;
-        const isDowngrade= level < curLevel;
+        const isCurrent   = t === sub.currentTier;
+        const isUpgrade   = TIER_LEVEL[t] > TIER_LEVEL[sub.currentTier];
+        const isDowngrade = TIER_LEVEL[t] < TIER_LEVEL[sub.currentTier];
         let cls = 'tier-action-btn';
         let dirLabel = '';
-        if (isCurrent)  { cls += ' is-current'; dirLabel = 'Current'; }
+        if (isCurrent)        { cls += ' is-current';   dirLabel = 'Current'; }
         else if (isUpgrade)   { cls += ' is-upgrade';   dirLabel = '&#8593; Upgrade'; }
         else if (isDowngrade) { cls += ' is-downgrade'; dirLabel = '&#8595; Downgrade'; }
-        const disabled = isCurrent ? 'disabled' : '';
-        return '<button class="' + cls + '" ' + disabled + ' onclick="changeTier(\'' + t + '\')">' +
-                 TIER_META[t].label +
-                 '<span class="tier-direction-label">' + dirLabel + '</span>' +
+        return '<button class="' + cls + '" ' + (isCurrent ? 'disabled' : '') + ' onclick="changeTier(\'' + t + '\')">' +
+                 TIER_META[t].label + '<span class="tier-direction-label">' + dirLabel + '</span>' +
                '</button>';
       }).join('');
 
       document.getElementById('subContent').innerHTML =
         '<div class="sub-card">' +
-          row('Plan',          sub.plan.name) +
-          row('Tier',          '<span class="tier-badge tier-' + sub.currentTier + '-badge">' + sub.currentTier + '</span>') +
-          row('Duration',      sub.plan.duration.charAt(0) + sub.plan.duration.slice(1).toLowerCase()) +
-          row('Status',        '<span class="status-' + sub.status + '">' + sub.status + '</span>') +
-          row('Started',       fmt(sub.startDate)) +
-          row('Expires',       fmt(sub.endDate)) +
+          row('Plan',           sub.plan.name) +
+          row('Tier',           '<span class="tier-badge tier-' + sub.currentTier + '-badge">' + sub.currentTier + '</span>') +
+          row('Duration',       sub.plan.duration.charAt(0) + sub.plan.duration.slice(1).toLowerCase()) +
+          row('Status',         '<span class="status-' + sub.status + '">' + sub.status + '</span>') +
+          row('Started',        fmt(sub.startDate)) +
+          row('Expires',        fmt(sub.endDate)) +
           row('Days remaining', daysLeft + ' day' + (daysLeft !== 1 ? 's' : '')) +
         '</div>' +
-
         '<div class="sub-section-label">Change Tier</div>' +
         '<div class="tier-action-btns">' + tierBtns + '</div>' +
-
         '<button class="cancel-sub-btn" onclick="toggleCancelConfirm()">Cancel Subscription</button>' +
         '<div class="cancel-confirm" id="cancelConfirm">' +
-          '<p>Are you sure? Your subscription will be cancelled immediately and you will lose access to all benefits.</p>' +
+          '<p>Are you sure? Your subscription will be cancelled immediately.</p>' +
           '<div class="cancel-confirm-btns">' +
             '<button class="btn-confirm-yes" onclick="doCancel()">Yes, cancel</button>' +
-            '<button class="btn-confirm-no"  onclick="toggleCancelConfirm()">Keep it</button>' +
+            '<button class="btn-confirm-no" onclick="toggleCancelConfirm()">Keep it</button>' +
           '</div>' +
         '</div>';
     }
@@ -412,13 +552,14 @@
     }
 
     async function changeTier(newTier) {
+      const prevTier = currentSub.currentTier;
       try {
         const res  = await fetch(`${API}/api/subscriptions/user/${currentUser.id}/tier?newTier=${newTier}`, { method:'PATCH' });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || 'Failed to change tier');
         currentSub = data;
         renderSubContent(data);
-        const direction = TIER_LEVEL[newTier] > TIER_LEVEL[currentSub.currentTier] ? 'Upgraded' : 'Downgraded';
+        const direction = TIER_LEVEL[newTier] > TIER_LEVEL[prevTier] ? 'Upgraded' : 'Downgraded';
         showToast(direction + ' to ' + TIER_META[newTier].label + '!', 'success');
       } catch(err) { showToast(err.message, 'error'); }
     }
@@ -505,7 +646,6 @@
 
     function formatPrice(p) { return Number(p).toLocaleString('en-IN'); }
 
-    // ── SUBSCRIBE ─────────────────────────────────────────────
     function handleSubscribe(planId, btn) {
       if (!currentUser) { openModal('login'); return; }
       doSubscribe(planId, btn);
@@ -528,10 +668,9 @@
       }
     }
 
-    // ── HELPERS ───────────────────────────────────────────────
     function showToast(msg, type) {
       const t = document.getElementById('toast');
-      t.textContent = msg;
+      t.innerHTML = msg;
       t.className = 'toast ' + type + ' show';
       setTimeout(() => { t.className = 'toast ' + type; }, 3000);
     }

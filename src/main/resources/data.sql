@@ -12,6 +12,3 @@ INSERT INTO membership_plans (name, price, active, duration, tier) VALUES ('Gold
 INSERT INTO membership_plans (name, price, active, duration, tier) VALUES ('Platinum Monthly', 399.00, true, 'MONTHLY', 'PLATINUM');
 INSERT INTO membership_plans (name, price, active, duration, tier) VALUES ('Platinum Quarterly', 999.00, true, 'QUARTERLY', 'PLATINUM');
 INSERT INTO membership_plans (name, price, active, duration, tier) VALUES ('Platinum Yearly', 3499.00, true, 'YEARLY', 'PLATINUM');
-
--- Sample user for testing
-INSERT INTO users (name, email) VALUES ('Test User', 'test@firstclub.com');

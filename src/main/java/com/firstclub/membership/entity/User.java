@@ -1,6 +1,5 @@
 package com.firstclub.membership.entity;
 
-import com.firstclub.membership.enums.MembershipTier;
 import com.firstclub.membership.enums.UserCohort;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,7 +33,7 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal monthlyOrderValue = BigDecimal.ZERO;
 
     @Column(nullable = false)

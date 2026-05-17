@@ -44,5 +44,9 @@ public class UserController {
         return userService.recordOrder(userId, orderValue);
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.getUser(userId));
+    }
 
 }
